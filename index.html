@@ -1,0 +1,2206 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>أسطورة عيد ميلاد فاطمة درغات | Fatima Dergate • S5 Math FSSM</title>
+
+    <!-- Google Fonts: Arabic Couture + Royal Serif + Monospace Math -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@300;400;600;700;800&family=Cinzel+Decorative:wght@700;900&family=JetBrains+Mono:wght@400;600&family=Playfair+Display:ital,wght@0,600;0,800;1,600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Three.js Core + Post-Processing (EffectComposer + UnrealBloomPass) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/EffectComposer.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/RenderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/ShaderPass.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/CopyShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/shaders/LuminosityHighPassShader.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/postprocessing/UnrealBloomPass.js"></script>
+
+    <!-- GSAP Animation Engine -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- jQuery for Micro-interactions & Cursor Sparkles -->
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- React 18 & Babel -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        arabic: ['Cairo', 'sans-serif'],
+                        amiri: ['Amiri', 'serif'],
+                        royal: ['Cinzel Decorative', 'serif'],
+                        playfair: ['Playfair Display', 'serif'],
+                        mono: ['JetBrains Mono', 'monospace']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        body {
+            margin: 0;
+            overflow-x: hidden;
+            background-color: #03020a;
+            color: #fff8eb;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        /* Fullscreen Persistent 3D WebGL Stage */
+        #webgl-canvas {
+            position: fixed;
+            inset: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 0;
+            touch-action: pan-y;
+        }
+
+        /* Couture Glassmorphism Surfaces */
+        .couture-glass {
+            background: linear-gradient(145deg, rgba(16, 11, 34, 0.72) 0%, rgba(6, 4, 16, 0.88) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(255, 215, 0, 0.25);
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.78), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+        }
+
+        .couture-glass-sapphire {
+            background: linear-gradient(145deg, rgba(10, 20, 46, 0.76) 0%, rgba(4, 8, 22, 0.90) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(56, 189, 248, 0.35);
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(125, 211, 252, 0.16);
+        }
+
+        .couture-glass-rose {
+            background: linear-gradient(145deg, rgba(40, 10, 28, 0.76) 0%, rgba(14, 3, 12, 0.88) 100%);
+            backdrop-filter: blur(22px);
+            -webkit-backdrop-filter: blur(22px);
+            border: 1px solid rgba(244, 63, 94, 0.38);
+            box-shadow: 0 20px 55px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(253, 164, 175, 0.16);
+        }
+
+        /* Luminous Gradients */
+        .gold-shimmer {
+            background: linear-gradient(120deg, #fff7d6 0%, #ffd700 28%, #f59e0b 55%, #fff2b2 80%, #ffd700 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerFlow 4.5s linear infinite;
+        }
+
+        .sapphire-shimmer {
+            background: linear-gradient(120deg, #e0f2fe 0%, #38bdf8 35%, #818cf8 70%, #bae6fd 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerFlow 5s linear infinite;
+        }
+
+        .rose-shimmer {
+            background: linear-gradient(120deg, #ffe4e6 0%, #fb7185 38%, #e11d48 72%, #fecdd3 100%);
+            background-size: 220% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: shimmerFlow 4.8s linear infinite;
+        }
+
+        @keyframes shimmerFlow {
+            to { background-position: 220% center; }
+        }
+
+        /* Royal Action Buttons */
+        .btn-gold-royal {
+            background: linear-gradient(135deg, #fde047 0%, #f59e0b 52%, #b45309 100%);
+            color: #120900;
+            box-shadow: 0 0 28px rgba(255, 215, 0, 0.45), inset 0 1px 1px rgba(255, 255, 255, 0.65);
+            transition: all 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .btn-gold-royal:hover {
+            transform: translateY(-2px) scale(1.02);
+            box-shadow: 0 0 44px rgba(255, 215, 0, 0.85);
+        }
+        .btn-gold-royal:active {
+            transform: scale(0.97);
+        }
+
+        .btn-sapphire-royal {
+            background: linear-gradient(135deg, #38bdf8 0%, #6366f1 100%);
+            color: #ffffff;
+            box-shadow: 0 0 26px rgba(56, 189, 248, 0.45);
+            transition: all 0.28s ease;
+        }
+        .btn-sapphire-royal:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.75);
+        }
+
+        /* Crimson Wax Seal */
+        .wax-seal-crest {
+            background: radial-gradient(circle at 32% 28%, #fb7185, #be123c 62%, #4c0519 100%);
+            box-shadow: 0 10px 32px rgba(225, 29, 72, 0.68), inset 0 2px 6px rgba(255, 255, 255, 0.45);
+            border: 2px solid rgba(255, 215, 0, 0.6);
+        }
+
+        /* 3D Perspective Cards */
+        .tilt-card {
+            transform-style: preserve-3d;
+            transition: transform 0.16s ease-out, border-color 0.3s ease;
+        }
+
+        /* jQuery Cursor Trail Particles */
+        .cursor-sparkle {
+            position: fixed;
+            pointer-events: none;
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #ffffff 0%, #ffd700 65%, transparent 100%);
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+        }
+        .cursor-heart {
+            position: fixed;
+            pointer-events: none;
+            color: #f43f5e;
+            font-size: 14px;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            text-shadow: 0 0 12px rgba(244, 63, 94, 0.9);
+        }
+        .cursor-math {
+            position: fixed;
+            pointer-events: none;
+            color: #38bdf8;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 12px;
+            font-weight: bold;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            text-shadow: 0 0 10px rgba(56, 189, 248, 0.9);
+        }
+
+        /* Custom Range Input */
+        input[type="range"].royal-slider {
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.14);
+            height: 6px;
+            border-radius: 999px;
+        }
+        input[type="range"].royal-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #fde047, #38bdf8);
+            cursor: pointer;
+            box-shadow: 0 0 14px rgba(56, 189, 248, 0.8);
+        }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: #03020a; }
+        ::-webkit-scrollbar-thumb { background: rgba(255, 215, 0, 0.35); border-radius: 10px; }
+
+        @keyframes floatGentle {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+        .animate-float-gentle {
+            animation: floatGentle 4.2s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Fullscreen 3D WebGL Stage -->
+    <canvas id="webgl-canvas"></canvas>
+
+    <!-- React Interactive UI Layer -->
+    <div id="root" class="relative z-10"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // =========================================================================
+        // 1. WEB AUDIO API POLYPHONIC MUSIC BOX & HARP SYNTHESIZER
+        // =========================================================================
+        class CelestialAudioEngine {
+            constructor() {
+                this.ctx = null;
+                this.isPlaying = false;
+                this.timer = null;
+                this.step = 0;
+                // Happy Birthday Melody + Warm Harmonic Bass
+                this.score = [
+                    { f: 261.63, b: 130.81, d: 340 }, { f: 261.63, b: 0, d: 190 }, { f: 293.66, b: 146.83, d: 520 }, { f: 261.63, b: 0, d: 520 }, { f: 349.23, b: 174.61, d: 520 }, { f: 329.63, b: 130.81, d: 900 },
+                    { f: 261.63, b: 130.81, d: 340 }, { f: 261.63, b: 0, d: 190 }, { f: 293.66, b: 146.83, d: 520 }, { f: 261.63, b: 0, d: 520 }, { f: 392.00, b: 196.00, d: 520 }, { f: 349.23, b: 174.61, d: 900 },
+                    { f: 261.63, b: 130.81, d: 340 }, { f: 261.63, b: 0, d: 190 }, { f: 523.25, b: 261.63, d: 520 }, { f: 440.00, b: 220.00, d: 520 }, { f: 349.23, b: 174.61, d: 520 }, { f: 329.63, b: 0, d: 520 }, { f: 293.66, b: 146.83, d: 900 },
+                    { f: 466.16, b: 233.08, d: 340 }, { f: 466.16, b: 0, d: 190 }, { f: 440.00, b: 220.00, d: 520 }, { f: 349.23, b: 174.61, d: 520 }, { f: 392.00, b: 196.00, d: 520 }, { f: 349.23, b: 174.61, d: 1050 }
+                ];
+            }
+
+            unlock() {
+                if (!this.ctx) {
+                    const AudioCtx = window.AudioContext || window.webkitAudioContext;
+                    this.ctx = new AudioCtx();
+                }
+                if (this.ctx.state === 'suspended') {
+                    this.ctx.resume();
+                }
+            }
+
+            playNote(freq, durationMs, vol = 0.12) {
+                if (!this.ctx || !freq) return;
+                const now = this.ctx.currentTime;
+                const dur = durationMs / 1000;
+
+                const osc = this.ctx.createOscillator();
+                const gain = this.ctx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(freq, now);
+
+                const harmonic = this.ctx.createOscillator();
+                const harmGain = this.ctx.createGain();
+                harmonic.type = 'triangle';
+                harmonic.frequency.setValueAtTime(freq * 2, now);
+                harmGain.gain.setValueAtTime(vol * 0.22, now);
+                harmGain.gain.exponentialRampToValueAtTime(0.0001, now + dur * 1.3);
+
+                gain.gain.setValueAtTime(0.0008, now);
+                gain.gain.linearRampToValueAtTime(vol, now + 0.025);
+                gain.gain.exponentialRampToValueAtTime(0.0001, now + dur * 1.55);
+
+                osc.connect(gain);
+                gain.connect(this.ctx.destination);
+                harmonic.connect(harmGain);
+                harmGain.connect(this.ctx.destination);
+
+                osc.start(now);
+                harmonic.start(now);
+                osc.stop(now + dur * 1.6);
+                harmonic.stop(now + dur * 1.6);
+            }
+
+            playArpeggio(mode = 'gold') {
+                this.unlock();
+                const scales = {
+                    gold: [440.00, 554.37, 659.25, 880.00, 1108.73],
+                    math: [392.00, 493.88, 587.33, 739.99, 987.77, 1174.66],
+                    heart: [523.25, 659.25, 783.99, 987.77, 1318.51]
+                };
+                const notes = scales[mode] || scales.gold;
+                notes.forEach((f, idx) => {
+                    setTimeout(() => this.playNote(f, 700, 0.085), idx * 60);
+                });
+            }
+
+            playHeartbeat() {
+                this.unlock();
+                this.playNote(110, 175, 0.22);
+                setTimeout(() => this.playNote(96, 250, 0.18), 185);
+            }
+
+            startMusic() {
+                this.unlock();
+                if (this.isPlaying) return;
+                this.isPlaying = true;
+                this.loop();
+            }
+
+            loop() {
+                if (!this.isPlaying) return;
+                const item = this.score[this.step];
+                this.playNote(item.f, item.d, 0.11);
+                if (item.b) this.playNote(item.b, item.d * 1.3, 0.055);
+                this.step = (this.step + 1) % this.score.length;
+                const wait = this.step === 0 ? 1350 : item.d + 55;
+                this.timer = setTimeout(() => this.loop(), wait);
+            }
+
+            stopMusic() {
+                this.isPlaying = false;
+                clearTimeout(this.timer);
+            }
+        }
+
+        const audioEngine = new CelestialAudioEngine();
+
+        // =========================================================================
+        // 2. GLOBAL 3D UNIVERSE STATE BRIDGE
+        // =========================================================================
+        window.UniverseState = {
+            world: 'palace', // 'palace' | 'math' | 'hearts' | 'constellation' | 'letter' | 'lanterns' | 'crown'
+            candlesLit: true,
+            mood: 'royalGold',
+            mathSculpture: 'riemann', // 'riemann' | 'lorenz' | 'hopf' | 'heartRose'
+            mathParam: 1.0, // interactive slider multiplier (0.5 -> 2.0)
+            heartBeatBoost: 0,
+            openedGifts: {},
+            lanternSpawnQueue: []
+        };
+
+        const MOOD_THEMES = {
+            royalGold: { label: 'الذهب الملكي', primary: 0xffd700, accent: 0xf59e0b, fog: 0x03020a, dot: '#ffd700' },
+            velvetRose: { label: 'الورد المخملي', primary: 0xf43f5e, accent: 0xe11d48, fog: 0x0b0208, dot: '#f43f5e' },
+            mathNebula: { label: 'سديم الرياضيات', primary: 0x38bdf8, accent: 0x818cf8, fog: 0x030614, dot: '#38bdf8' }
+        };
+
+        // =========================================================================
+        // 3. THREE.JS 7-WORLD ENGINE WITH UNREAL BLOOM POST-PROCESSING
+        // =========================================================================
+        function initThreeUniverse() {
+            const canvas = document.getElementById('webgl-canvas');
+            const scene = new THREE.Scene();
+            scene.fog = new THREE.FogExp2(0x03020a, 0.022);
+
+            const camera = new THREE.PerspectiveCamera(54, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.set(0, 2.2, 9.6);
+
+            const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+            renderer.toneMapping = THREE.ACESFilmicToneMapping;
+            renderer.toneMappingExposure = 1.25;
+
+            // Cinematic UnrealBloomPass Post-Processing (with safe fallback)
+            let composer = null;
+            try {
+                if (THREE.EffectComposer && THREE.RenderPass && THREE.UnrealBloomPass) {
+                    composer = new THREE.EffectComposer(renderer);
+                    const renderPass = new THREE.RenderPass(scene, camera);
+                    composer.addPass(renderPass);
+                    const bloomPass = new THREE.UnrealBloomPass(
+                        new THREE.Vector2(window.innerWidth, window.innerHeight),
+                        0.68, // strength
+                        0.55, // radius
+                        0.72  // threshold
+                    );
+                    composer.addPass(bloomPass);
+                }
+            } catch (err) {
+                composer = null;
+            }
+
+            // Global Lighting
+            scene.add(new THREE.AmbientLight(0xffffff, 0.62));
+            const keyLight = new THREE.DirectionalLight(0xfff5d6, 1.85);
+            keyLight.position.set(6, 11, 7);
+            scene.add(keyLight);
+
+            const rimLight = new THREE.PointLight(0xffd700, 3.0, 32);
+            rimLight.position.set(-6, 5, -5);
+            scene.add(rimLight);
+
+            // Reusable Royal Materials
+            const goldMat = new THREE.MeshStandardMaterial({
+                color: 0xffd700,
+                metalness: 0.9,
+                roughness: 0.16,
+                emissive: 0x452700,
+                emissiveIntensity: 0.4
+            });
+            const velvetMat = new THREE.MeshPhysicalMaterial({
+                color: 0x160c2b,
+                roughness: 0.3,
+                metalness: 0.25,
+                clearcoat: 0.8
+            });
+            const pearlMat = new THREE.MeshPhysicalMaterial({
+                color: 0xfff8eb,
+                roughness: 0.1,
+                metalness: 0.1,
+                clearcoat: 1.0
+            });
+            const sapphireMat = new THREE.MeshPhysicalMaterial({
+                color: 0x38bdf8,
+                emissive: 0x0c4a6e,
+                emissiveIntensity: 0.55,
+                metalness: 0.4,
+                roughness: 0.12,
+                clearcoat: 1.0
+            });
+            const rubyMat = new THREE.MeshPhysicalMaterial({
+                color: 0xf43f5e,
+                emissive: 0x590322,
+                emissiveIntensity: 0.55,
+                metalness: 0.25,
+                roughness: 0.1,
+                clearcoat: 1.0
+            });
+
+            // -----------------------------------------------------------------
+            // COSMIC BACKGROUND: 2,800 STARDUST PARTICLES
+            // -----------------------------------------------------------------
+            const starCount = 2800;
+            const starPos = new Float32Array(starCount * 3);
+            for (let i = 0; i < starCount * 3; i += 3) {
+                const r = 4.2 + Math.random() * 23;
+                const theta = Math.random() * Math.PI * 2;
+                const y = (Math.random() - 0.35) * 22;
+                starPos[i] = Math.cos(theta) * r;
+                starPos[i + 1] = y;
+                starPos[i + 2] = Math.sin(theta) * r;
+            }
+            const starGeo = new THREE.BufferGeometry();
+            starGeo.setAttribute('position', new THREE.BufferAttribute(starPos, 3));
+            const starMat = new THREE.PointsMaterial({
+                size: 0.08,
+                color: 0xffd700,
+                transparent: true,
+                opacity: 0.9,
+                blending: THREE.AdditiveBlending
+            });
+            const cosmicStars = new THREE.Points(starGeo, starMat);
+            scene.add(cosmicStars);
+
+            // =================================================================
+            // WORLD 1: ROYAL 3D BIRTHDAY PALACE (3-Tier Cake + Candles + Diamond)
+            // =================================================================
+            const w1Palace = new THREE.Group();
+            w1Palace.position.y = -0.65;
+            scene.add(w1Palace);
+
+            const plate = new THREE.Mesh(new THREE.CylinderGeometry(2.95, 2.6, 0.18, 64), goldMat);
+            plate.position.y = -0.1;
+            w1Palace.add(plate);
+
+            const tier1 = new THREE.Mesh(new THREE.CylinderGeometry(2.2, 2.2, 1.15, 64), velvetMat);
+            tier1.position.y = 0.55;
+            const ring1 = new THREE.Mesh(new THREE.TorusGeometry(2.22, 0.045, 16, 80), goldMat);
+            ring1.rotation.x = Math.PI / 2;
+            ring1.position.y = 1.12;
+            w1Palace.add(tier1, ring1);
+
+            for (let i = 0; i < 36; i++) {
+                const a = (i / 36) * Math.PI * 2;
+                const pearl = new THREE.Mesh(new THREE.SphereGeometry(0.052, 12, 12), pearlMat);
+                pearl.position.set(Math.cos(a) * 2.24, 0.14, Math.sin(a) * 2.24);
+                w1Palace.add(pearl);
+            }
+
+            const tier2 = new THREE.Mesh(new THREE.CylinderGeometry(1.55, 1.55, 1.0, 64), velvetMat);
+            tier2.position.y = 1.62;
+            const ring2 = new THREE.Mesh(new THREE.TorusGeometry(1.57, 0.04, 16, 80), goldMat);
+            ring2.rotation.x = Math.PI / 2;
+            ring2.position.y = 2.1;
+            w1Palace.add(tier2, ring2);
+
+            const tier3 = new THREE.Mesh(new THREE.CylinderGeometry(0.98, 0.98, 0.85, 64), velvetMat);
+            tier3.position.y = 2.52;
+            const ring3 = new THREE.Mesh(new THREE.TorusGeometry(1.0, 0.035, 16, 64), goldMat);
+            ring3.rotation.x = Math.PI / 2;
+            ring3.position.y = 2.94;
+            w1Palace.add(tier3, ring3);
+
+            const palaceDiamond = new THREE.Mesh(
+                new THREE.OctahedronGeometry(0.36, 0),
+                new THREE.MeshBasicMaterial({ color: 0xffe484 })
+            );
+            palaceDiamond.position.y = 4.28;
+            w1Palace.add(palaceDiamond);
+
+            const candles = [];
+            const candlePositions = [
+                { x: 0, z: 0, h: 0.8 },
+                { x: 0.54, z: 0, h: 0.62 },
+                { x: -0.54, z: 0, h: 0.62 },
+                { x: 0, z: 0.54, h: 0.62 },
+                { x: 0, z: -0.54, h: 0.62 },
+                { x: 0.38, z: 0.38, h: 0.56 },
+                { x: -0.38, z: -0.38, h: 0.56 }
+            ];
+            const flameGeo = new THREE.SphereGeometry(0.068, 16, 16);
+            flameGeo.scale(0.75, 1.9, 0.75);
+
+            candlePositions.forEach((c, idx) => {
+                const grp = new THREE.Group();
+                grp.position.set(c.x, 2.95, c.z);
+
+                const stick = new THREE.Mesh(new THREE.CylinderGeometry(0.044, 0.044, c.h, 16), pearlMat);
+                stick.position.y = c.h / 2;
+                grp.add(stick);
+
+                const flame = new THREE.Mesh(flameGeo, new THREE.MeshBasicMaterial({ color: 0xffe066 }));
+                flame.position.y = c.h + 0.14;
+                grp.add(flame);
+
+                const halo = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.16, 12, 12),
+                    new THREE.MeshBasicMaterial({ color: 0xff8800, transparent: true, opacity: 0.35 })
+                );
+                halo.position.y = c.h + 0.14;
+                grp.add(halo);
+
+                const smoke = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.08, 10, 10),
+                    new THREE.MeshBasicMaterial({ color: 0xe5e7eb, transparent: true, opacity: 0 })
+                );
+                smoke.position.y = c.h + 0.16;
+                grp.add(smoke);
+
+                w1Palace.add(grp);
+                candles.push({ flame, halo, smoke, baseY: c.h + 0.14, phase: idx * 1.4 });
+            });
+
+            const cakeLight = new THREE.PointLight(0xffb74d, 3.2, 14);
+            cakeLight.position.set(0, 3.9, 0);
+            w1Palace.add(cakeLight);
+
+            // =================================================================
+            // WORLD 2: ADVANCED MATHEMATICS SANCTUARY (S5 MATH EN FSSM)
+            // 4 Live Interactive 3D Mathematical Manifolds + Floating Sprites
+            // =================================================================
+            const w2Math = new THREE.Group();
+            w2Math.visible = false;
+            w2Math.position.y = 1.4;
+            scene.add(w2Math);
+
+            // --- SCULPTURE A: RIEMANN SURFACE Re(z^(1/3)) ---
+            const riemannGroup = new THREE.Group();
+            w2Math.add(riemannGroup);
+
+            const rSteps = 44;
+            const thetaSteps = 140;
+            const riemannPositions = [];
+            const riemannColors = [];
+            const riemannIndices = [];
+
+            for (let i = 0; i <= rSteps; i++) {
+                const r = 0.12 + (i / rSteps) * 2.55;
+                for (let j = 0; j <= thetaSteps; j++) {
+                    // 3 sheets of Riemann surface for w = z^(1/3) -> theta from 0 to 6*PI
+                    const theta = (j / thetaSteps) * Math.PI * 6;
+                    const x = r * Math.cos(theta);
+                    const z = r * Math.sin(theta);
+                    const y = Math.pow(r, 0.55) * Math.cos(theta / 3) * 1.25;
+                    riemannPositions.push(x, y, z);
+
+                    // Phase argument coloring: Gold -> Sapphire -> Rose
+                    const phase = (theta / (Math.PI * 6));
+                    const c = new THREE.Color().setHSL(0.12 + phase * 0.78, 0.88, 0.58);
+                    riemannColors.push(c.r, c.g, c.b);
+                }
+            }
+
+            for (let i = 0; i < rSteps; i++) {
+                for (let j = 0; j < thetaSteps; j++) {
+                    const a = i * (thetaSteps + 1) + j;
+                    const b = a + 1;
+                    const c = (i + 1) * (thetaSteps + 1) + j;
+                    const d = c + 1;
+                    riemannIndices.push(a, b, d, a, d, c);
+                }
+            }
+
+            const riemannGeo = new THREE.BufferGeometry();
+            riemannGeo.setAttribute('position', new THREE.Float32BufferAttribute(riemannPositions, 3));
+            riemannGeo.setAttribute('color', new THREE.Float32BufferAttribute(riemannColors, 3));
+            riemannGeo.setIndex(riemannIndices);
+            riemannGeo.computeVertexNormals();
+
+            const riemannMesh = new THREE.Mesh(
+                riemannGeo,
+                new THREE.MeshPhysicalMaterial({
+                    vertexColors: true,
+                    side: THREE.DoubleSide,
+                    roughness: 0.18,
+                    metalness: 0.35,
+                    transparent: true,
+                    opacity: 0.86,
+                    wireframe: false
+                })
+            );
+            const riemannWire = new THREE.Mesh(
+                riemannGeo,
+                new THREE.MeshBasicMaterial({
+                    vertexColors: true,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.25
+                })
+            );
+            riemannGroup.add(riemannMesh, riemannWire);
+
+            // --- SCULPTURE B: LORENZ STRANGE ATTRACTOR (3,200 Chaotic Steps) ---
+            const lorenzGroup = new THREE.Group();
+            lorenzGroup.visible = false;
+            w2Math.add(lorenzGroup);
+
+            const lorenzCount = 3200;
+            const lorenzPts = [];
+            const lorenzCols = [];
+            let lx = 0.1, ly = 0, lz = 0;
+            const sigma = 10, rho = 28, beta = 8 / 3, dt = 0.0065;
+
+            for (let i = 0; i < lorenzCount; i++) {
+                const dx = sigma * (ly - lx) * dt;
+                const dy = (lx * (rho - lz) - ly) * dt;
+                const dz = (lx * ly - beta * lz) * dt;
+                lx += dx; ly += dy; lz += dz;
+
+                const pt = new THREE.Vector3(lx * 0.11, (lz - 25) * 0.11, ly * 0.11);
+                lorenzPts.push(pt);
+                const col = new THREE.Color().setHSL(0.55 - (i / lorenzCount) * 0.45, 0.95, 0.6);
+                lorenzCols.push(col.r, col.g, col.b);
+            }
+
+            const lorenzGeo = new THREE.BufferGeometry().setFromPoints(lorenzPts);
+            lorenzGeo.setAttribute('color', new THREE.Float32BufferAttribute(lorenzCols, 3));
+            const lorenzLine = new THREE.Line(
+                lorenzGeo,
+                new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.9 })
+            );
+            lorenzGroup.add(lorenzLine);
+
+            // Animated Gold Tracer Particle along the Lorenz Trajectory
+            const lorenzTracer = new THREE.Mesh(
+                new THREE.SphereGeometry(0.14, 16, 16),
+                new THREE.MeshBasicMaterial({ color: 0xffe484 })
+            );
+            lorenzGroup.add(lorenzTracer);
+
+            // --- SCULPTURE C: HOPF FIBRATION & (5,8) TORUS KNOT ---
+            const hopfGroup = new THREE.Group();
+            hopfGroup.visible = false;
+            w2Math.add(hopfGroup);
+
+            const torusKnotMesh = new THREE.Mesh(
+                new THREE.TorusKnotGeometry(1.35, 0.11, 220, 24, 5, 8),
+                goldMat
+            );
+            hopfGroup.add(torusKnotMesh);
+
+            // Stereographic Hopf Fibration Linked Circles
+            for (let k = 0; k < 18; k++) {
+                const alpha = (k / 18) * Math.PI * 2;
+                const ring = new THREE.Mesh(
+                    new THREE.TorusGeometry(1.95, 0.022, 12, 90),
+                    k % 2 === 0 ? sapphireMat : rubyMat
+                );
+                ring.rotation.set(Math.sin(alpha) * 0.85, alpha, Math.cos(alpha) * 0.85);
+                hopfGroup.add(ring);
+            }
+
+            // --- SCULPTURE D: PARAMETRIC HEART + MAURER ROSE r = sin(n*theta) ---
+            const heartRoseGroup = new THREE.Group();
+            heartRoseGroup.visible = false;
+            w2Math.add(heartRoseGroup);
+
+            // Parametric Heart Curve x = 16 sin^3(t), y = 13 cos(t) - 5 cos(2t) - 2 cos(3t) - cos(4t)
+            const pHeartPts = [];
+            for (let i = 0; i <= 240; i++) {
+                const t = (i / 240) * Math.PI * 2;
+                const hx = 16 * Math.pow(Math.sin(t), 3) * 0.125;
+                const hy = (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t)) * 0.125 + 0.25;
+                const hz = Math.sin(t * 3) * 0.35;
+                pHeartPts.push(new THREE.Vector3(hx, hy, hz));
+            }
+            const pHeartTube = new THREE.Mesh(
+                new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pHeartPts, true), 200, 0.065, 16, true),
+                rubyMat
+            );
+            heartRoseGroup.add(pHeartTube);
+
+            // Maurer Rose Trajectory
+            const maurerPts = [];
+            const nRose = 6, dRose = 71;
+            for (let i = 0; i <= 360; i++) {
+                const k = i * dRose * (Math.PI / 180);
+                const r = 2.45 * Math.sin(nRose * k);
+                maurerPts.push(new THREE.Vector3(r * Math.cos(k), r * Math.sin(k), Math.cos(i * 0.05) * 0.4));
+            }
+            const maurerLine = new THREE.Line(
+                new THREE.BufferGeometry().setFromPoints(maurerPts),
+                new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.78 })
+            );
+            heartRoseGroup.add(maurerLine);
+
+            // --- FLOATING 3D MATHEMATICAL GLYPH SPRITES IN WORLD 2 ---
+            const mathGlyphs = ['∫ f(z)dz', 'e^{iπ}+1=0', '∇×F', 'Φ = 1.618', '∀ε > 0', 'ℝⁿ', 'det(A)', '∑ n⁻ˢ', '∂Ω'];
+            const mathSprites = [];
+            mathGlyphs.forEach((glyph, idx) => {
+                const c2d = document.createElement('canvas');
+                c2d.width = 256;
+                c2d.height = 96;
+                const ctx2d = c2d.getContext('2d');
+                ctx2d.font = 'bold 34px "JetBrains Mono", monospace';
+                ctx2d.textAlign = 'center';
+                ctx2d.textBaseline = 'middle';
+                ctx2d.fillStyle = idx % 2 === 0 ? '#ffd700' : '#38bdf8';
+                ctx2d.shadowColor = idx % 2 === 0 ? '#f59e0b' : '#38bdf8';
+                ctx2d.shadowBlur = 14;
+                ctx2d.fillText(glyph, 128, 48);
+
+                const tex = new THREE.CanvasTexture(c2d);
+                const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: tex, transparent: true, opacity: 0.9 }));
+                const ang = (idx / mathGlyphs.length) * Math.PI * 2;
+                const rad = 3.1 + (idx % 2) * 0.85;
+                sp.position.set(Math.cos(ang) * rad, (idx % 3 - 1) * 1.15, Math.sin(ang) * rad);
+                sp.scale.set(1.85, 0.7, 1);
+                w2Math.add(sp);
+                mathSprites.push({ sprite: sp, ang, rad, baseY: sp.position.y, phase: idx });
+            });
+
+            // =================================================================
+            // WORLD 3: INFINITE HEARTS COSMOS (Giant Crystal Heart + 65 Orbiters)
+            // =================================================================
+            const w3Hearts = new THREE.Group();
+            w3Hearts.visible = false;
+            scene.add(w3Hearts);
+
+            const hShape = new THREE.Shape();
+            hShape.moveTo(0.25, 0.25);
+            hShape.bezierCurveTo(0.25, 0.25, 0.20, 0, 0, 0);
+            hShape.bezierCurveTo(-0.30, 0, -0.30, 0.35, -0.30, 0.35);
+            hShape.bezierCurveTo(-0.30, 0.55, -0.10, 0.77, 0.25, 0.95);
+            hShape.bezierCurveTo(0.60, 0.77, 0.80, 0.55, 0.80, 0.35);
+            hShape.bezierCurveTo(0.80, 0.35, 0.80, 0, 0.50, 0);
+            hShape.bezierCurveTo(0.35, 0, 0.25, 0.25, 0.25, 0.25);
+
+            const heartGeo = new THREE.ExtrudeGeometry(hShape, {
+                depth: 0.24,
+                bevelEnabled: true,
+                bevelSegments: 5,
+                steps: 2,
+                bevelSize: 0.08,
+                bevelThickness: 0.08
+            });
+            heartGeo.center();
+            heartGeo.rotateZ(Math.PI);
+
+            const roseGoldMat = new THREE.MeshPhysicalMaterial({
+                color: 0xfb7185,
+                emissive: 0x4c0519,
+                emissiveIntensity: 0.4,
+                metalness: 0.8,
+                roughness: 0.16,
+                clearcoat: 0.9
+            });
+
+            const royalHeartCenter = new THREE.Mesh(heartGeo, rubyMat);
+            royalHeartCenter.position.set(0, 1.45, 0);
+            royalHeartCenter.scale.set(2.4, 2.4, 2.4);
+            w3Hearts.add(royalHeartCenter);
+
+            const heartPulseRing = new THREE.Mesh(
+                new THREE.TorusGeometry(2.25, 0.028, 16, 100),
+                new THREE.MeshBasicMaterial({ color: 0xf43f5e, transparent: true, opacity: 0.6 })
+            );
+            heartPulseRing.rotation.x = Math.PI / 2.3;
+            heartPulseRing.position.y = 1.45;
+            w3Hearts.add(heartPulseRing);
+
+            const orbitingHearts = [];
+            const hMats = [rubyMat, roseGoldMat, goldMat];
+            for (let i = 0; i < 65; i++) {
+                const m = new THREE.Mesh(heartGeo, hMats[i % hMats.length]);
+                const rad = 2.3 + Math.random() * 7.4;
+                const ang = Math.random() * Math.PI * 2;
+                const y = -1.8 + Math.random() * 6.8;
+                const sc = 0.24 + Math.random() * 0.44;
+                m.position.set(Math.cos(ang) * rad, y, Math.sin(ang) * rad);
+                m.scale.set(sc, sc, sc);
+                w3Hearts.add(m);
+                orbitingHearts.push({ mesh: m, rad, ang, baseY: y, spd: 0.2 + Math.random() * 0.35, ph: Math.random() * 6.28 });
+            }
+
+            // =================================================================
+            // WORLD 4: F ♥ D CONSTELLATION & 6 3D MYSTERY GIFT BOXES
+            // =================================================================
+            const w4Constellation = new THREE.Group();
+            w4Constellation.visible = false;
+            scene.add(w4Constellation);
+
+            const constNodes = [
+                // F
+                new THREE.Vector3(-3.3, 3.1, -1.5), new THREE.Vector3(-3.3, 2.3, -1.5), new THREE.Vector3(-3.3, 1.5, -1.5),
+                new THREE.Vector3(-2.5, 3.1, -1.5), new THREE.Vector3(-2.65, 2.35, -1.5),
+                // Heart
+                new THREE.Vector3(0, 2.65, -1.2), new THREE.Vector3(-0.45, 3.05, -1.2), new THREE.Vector3(-0.75, 2.6, -1.2),
+                new THREE.Vector3(0, 1.75, -1.2), new THREE.Vector3(0.75, 2.6, -1.2), new THREE.Vector3(0.45, 3.05, -1.2),
+                // D
+                new THREE.Vector3(2.4, 3.1, -1.5), new THREE.Vector3(2.4, 2.3, -1.5), new THREE.Vector3(2.4, 1.5, -1.5),
+                new THREE.Vector3(3.15, 2.85, -1.5), new THREE.Vector3(3.3, 2.3, -1.5), new THREE.Vector3(3.15, 1.75, -1.5)
+            ];
+
+            constNodes.forEach((pt) => {
+                const star = new THREE.Mesh(new THREE.SphereGeometry(0.11, 16, 16), new THREE.MeshBasicMaterial({ color: 0xffe484 }));
+                star.position.copy(pt);
+                w4Constellation.add(star);
+            });
+
+            const segPairs = [
+                [0, 1], [1, 2], [0, 3], [1, 4],
+                [5, 6], [6, 7], [7, 8], [8, 9], [9, 10], [10, 5],
+                [11, 12], [12, 13], [11, 14], [14, 15], [15, 16], [16, 13]
+            ];
+            const lineVerts = [];
+            segPairs.forEach(([a, b]) => lineVerts.push(constNodes[a], constNodes[b]));
+            const constLineMat = new THREE.LineBasicMaterial({ color: 0xffd700, transparent: true, opacity: 0.72 });
+            w4Constellation.add(new THREE.LineSegments(new THREE.BufferGeometry().setFromPoints(lineVerts), constLineMat));
+
+            // 6 Floating 3D Gift Boxes
+            const giftMeshes = [];
+            const boxPalette = [0x4c1d95, 0x9f1239, 0x1e3a8a, 0x065f46, 0x78350f, 0x0284c7];
+            for (let i = 0; i < 6; i++) {
+                const gGrp = new THREE.Group();
+                const angle = (i - 2.5) * 0.36;
+                gGrp.position.set(Math.sin(angle) * 4.2, 0.25, Math.cos(angle) * 2.1 - 0.5);
+
+                const bMat = new THREE.MeshPhysicalMaterial({ color: boxPalette[i], roughness: 0.28, metalness: 0.22, clearcoat: 0.85 });
+                const base = new THREE.Mesh(new THREE.BoxGeometry(0.78, 0.66, 0.78), bMat);
+                const rib1 = new THREE.Mesh(new THREE.BoxGeometry(0.81, 0.67, 0.13), goldMat);
+                const rib2 = new THREE.Mesh(new THREE.BoxGeometry(0.13, 0.67, 0.81), goldMat);
+                gGrp.add(base, rib1, rib2);
+
+                const lid = new THREE.Group();
+                lid.position.y = 0.38;
+                const lidTop = new THREE.Mesh(new THREE.BoxGeometry(0.85, 0.16, 0.85), bMat);
+                const lRib1 = new THREE.Mesh(new THREE.BoxGeometry(0.88, 0.17, 0.14), goldMat);
+                const lRib2 = new THREE.Mesh(new THREE.BoxGeometry(0.14, 0.17, 0.88), goldMat);
+                const bow = new THREE.Mesh(new THREE.TorusKnotGeometry(0.12, 0.03, 32, 8), goldMat);
+                bow.position.y = 0.14;
+                lid.add(lidTop, lRib1, lRib2, bow);
+                gGrp.add(lid);
+
+                const coreGlow = new THREE.Mesh(
+                    new THREE.SphereGeometry(0.22, 16, 16),
+                    new THREE.MeshBasicMaterial({ color: 0xffe484, transparent: true, opacity: 0 })
+                );
+                coreGlow.position.y = 0.32;
+                gGrp.add(coreGlow);
+
+                w4Constellation.add(gGrp);
+                giftMeshes.push({ group: gGrp, lid, glow: coreGlow, baseY: 0.25, idx: i });
+            }
+
+            // =================================================================
+            // WORLD 5: WAX-SEALED ROYAL LETTER (Falling 3D Rose Petals)
+            // =================================================================
+            const w5Letter = new THREE.Group();
+            w5Letter.visible = false;
+            scene.add(w5Letter);
+
+            const petals = [];
+            const petalGeo = new THREE.CircleGeometry(0.16, 6);
+            const petalMat = new THREE.MeshPhysicalMaterial({
+                color: 0xf43f5e,
+                emissive: 0x4c0519,
+                emissiveIntensity: 0.4,
+                side: THREE.DoubleSide,
+                roughness: 0.3
+            });
+            for (let i = 0; i < 85; i++) {
+                const p = new THREE.Mesh(petalGeo, petalMat);
+                p.position.set((Math.random() - 0.5) * 14, (Math.random() - 0.3) * 10, (Math.random() - 0.5) * 10);
+                p.rotation.set(Math.random() * 3, Math.random() * 3, Math.random() * 3);
+                w5Letter.add(p);
+                petals.push({ mesh: p, fall: 0.008 + Math.random() * 0.015, sway: 0.8 + Math.random() * 1.4, ph: Math.random() * 6.28 });
+            }
+
+            // =================================================================
+            // WORLD 6: MAGICAL SKY LANTERN FESTIVAL (40 Ascending 3D Lanterns)
+            // =================================================================
+            const w6Lanterns = new THREE.Group();
+            w6Lanterns.visible = false;
+            scene.add(w6Lanterns);
+
+            const lanternShellGeo = new THREE.CylinderGeometry(0.32, 0.22, 0.62, 16, 1, true);
+            const lanterns3D = [];
+
+            function spawnLantern3D(hexColor = 0xffb733, startY = null) {
+                const grp = new THREE.Group();
+                const mat = new THREE.MeshBasicMaterial({ color: hexColor, transparent: true, opacity: 0.88, side: THREE.DoubleSide });
+                grp.add(new THREE.Mesh(lanternShellGeo, mat));
+
+                const core = new THREE.Mesh(new THREE.SphereGeometry(0.14, 12, 12), new THREE.MeshBasicMaterial({ color: 0xffffff }));
+                core.position.y = -0.1;
+                grp.add(core);
+
+                grp.position.set(
+                    (Math.random() - 0.5) * 13,
+                    startY !== null ? startY : (-2.5 + Math.random() * 9.5),
+                    -1.5 + (Math.random() - 0.5) * 9
+                );
+                w6Lanterns.add(grp);
+                lanterns3D.push({ mesh: grp, speed: 0.012 + Math.random() * 0.018, ph: Math.random() * 6.28 });
+            }
+
+            for (let i = 0; i < 40; i++) {
+                spawnLantern3D(i % 3 === 0 ? 0xf43f5e : (i % 3 === 1 ? 0xffb733 : 0x38bdf8));
+            }
+
+            // =================================================================
+            // WORLD 7: ETERNAL CROWN & CELESTIAL ASTROLABE
+            // =================================================================
+            const w7Crown = new THREE.Group();
+            w7Crown.visible = false;
+            scene.add(w7Crown);
+
+            const ringA = new THREE.Mesh(new THREE.TorusGeometry(2.35, 0.04, 16, 100), goldMat);
+            const ringB = new THREE.Mesh(new THREE.TorusGeometry(1.95, 0.032, 16, 100), sapphireMat);
+            const ringC = new THREE.Mesh(new THREE.TorusGeometry(1.55, 0.028, 16, 100), roseGoldMat);
+            ringA.position.y = 1.65;
+            ringB.position.y = 1.65;
+            ringC.position.y = 1.65;
+            w7Crown.add(ringA, ringB, ringC);
+
+            const crownObj = new THREE.Group();
+            crownObj.position.y = 1.65;
+            crownObj.add(new THREE.Mesh(new THREE.CylinderGeometry(0.78, 0.68, 0.38, 32, 1, true), goldMat));
+            for (let i = 0; i < 8; i++) {
+                const a = (i / 8) * Math.PI * 2;
+                const spike = new THREE.Mesh(new THREE.ConeGeometry(0.14, 0.45, 4), goldMat);
+                spike.position.set(Math.cos(a) * 0.72, 0.36, Math.sin(a) * 0.72);
+                const jewel = new THREE.Mesh(new THREE.OctahedronGeometry(0.08, 0), i % 2 === 0 ? rubyMat : sapphireMat);
+                jewel.position.set(Math.cos(a) * 0.72, 0.62, Math.sin(a) * 0.72);
+                crownObj.add(spike, jewel);
+            }
+            w7Crown.add(crownObj);
+
+            // =================================================================
+            // POINTER DRAG & CAMERA PARALLAX
+            // =================================================================
+            let isDragging = false;
+            let prevX = 0;
+            let targetRotY = 0;
+            let pointerX = 0;
+            let pointerY = 0;
+
+            canvas.addEventListener('mousedown', (e) => { isDragging = true; prevX = e.clientX; });
+            window.addEventListener('mousemove', (e) => {
+                pointerX = (e.clientX / window.innerWidth) - 0.5;
+                pointerY = (e.clientY / window.innerHeight) - 0.5;
+                if (isDragging) {
+                    targetRotY += (e.clientX - prevX) * 0.008;
+                    prevX = e.clientX;
+                }
+            });
+            window.addEventListener('mouseup', () => { isDragging = false; });
+
+            canvas.addEventListener('touchstart', (e) => {
+                if (e.touches.length > 0) { isDragging = true; prevX = e.touches[0].clientX; }
+            }, { passive: true });
+            window.addEventListener('touchmove', (e) => {
+                if (e.touches.length > 0) {
+                    pointerX = (e.touches[0].clientX / window.innerWidth) - 0.5;
+                    pointerY = (e.touches[0].clientY / window.innerHeight) - 0.5;
+                    if (isDragging) {
+                        targetRotY += (e.touches[0].clientX - prevX) * 0.008;
+                        prevX = e.touches[0].clientX;
+                    }
+                }
+            }, { passive: true });
+            window.addEventListener('touchend', () => { isDragging = false; });
+
+            window.addEventListener('resize', () => {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+                if (composer) composer.setSize(window.innerWidth, window.innerHeight);
+            });
+
+            // =================================================================
+            // MAIN RENDER LOOP
+            // =================================================================
+            const clock = new THREE.Clock();
+            let smokeProg = 0;
+
+            function animate() {
+                requestAnimationFrame(animate);
+                const t = clock.getElapsedTime();
+
+                // Mood Atmosphere
+                const mood = MOOD_THEMES[window.UniverseState.mood];
+                starMat.color.setHex(mood.primary);
+                rimLight.color.setHex(mood.primary);
+                scene.fog.color.setHex(mood.fog);
+
+                // World Visibility
+                const w = window.UniverseState.world;
+                w1Palace.visible = (w === 'palace');
+                w2Math.visible = (w === 'math');
+                w3Hearts.visible = (w === 'hearts');
+                w4Constellation.visible = (w === 'constellation');
+                w5Letter.visible = (w === 'letter');
+                w6Lanterns.visible = (w === 'lanterns');
+                w7Crown.visible = (w === 'crown');
+
+                if (!isDragging) targetRotY += 0.0032;
+
+                // --- WORLD 1: PALACE ---
+                if (w1Palace.visible) {
+                    w1Palace.rotation.y += (targetRotY - w1Palace.rotation.y) * 0.08;
+                    palaceDiamond.rotation.y = t * 1.6;
+                    palaceDiamond.position.y = 4.28 + Math.sin(t * 2.5) * 0.14;
+
+                    if (window.UniverseState.candlesLit) {
+                        smokeProg = 0;
+                        cakeLight.intensity = 3.2 + Math.sin(t * 18) * 0.45;
+                        candles.forEach((c) => {
+                            c.flame.visible = true;
+                            c.halo.visible = true;
+                            c.smoke.material.opacity = 0;
+                            c.smoke.position.y = c.baseY;
+                            const flk = 1 + Math.sin(t * 20 + c.phase) * 0.16;
+                            c.flame.scale.set(0.75 * flk, 1.9 * flk, 0.75 * flk);
+                        });
+                    } else {
+                        cakeLight.intensity += (0.4 - cakeLight.intensity) * 0.08;
+                        smokeProg = Math.min(smokeProg + 0.012, 1);
+                        candles.forEach((c, i) => {
+                            c.flame.visible = false;
+                            c.halo.visible = false;
+                            if (smokeProg < 0.98) {
+                                c.smoke.material.opacity = (1 - smokeProg) * 0.55;
+                                c.smoke.position.y = c.baseY + smokeProg * 1.5;
+                                c.smoke.position.x = Math.sin(t * 4 + i) * 0.09 * smokeProg;
+                            } else {
+                                c.smoke.material.opacity = 0;
+                            }
+                        });
+                    }
+                }
+
+                // --- WORLD 2: ADVANCED MATHEMATICS SANCTUARY ---
+                if (w2Math.visible) {
+                    const sc = window.UniverseState.mathSculpture;
+                    const pVal = window.UniverseState.mathParam;
+
+                    riemannGroup.visible = (sc === 'riemann');
+                    lorenzGroup.visible = (sc === 'lorenz');
+                    hopfGroup.visible = (sc === 'hopf');
+                    heartRoseGroup.visible = (sc === 'heartRose');
+
+                    w2Math.rotation.y += (targetRotY - w2Math.rotation.y) * 0.08;
+
+                    if (riemannGroup.visible) {
+                        riemannGroup.rotation.x = Math.sin(t * 0.6) * 0.35;
+                        riemannGroup.scale.set(1, pVal, 1);
+                    }
+                    if (lorenzGroup.visible) {
+                        const tracerIdx = Math.floor((t * 180 * pVal) % lorenzPts.length);
+                        lorenzTracer.position.copy(lorenzPts[tracerIdx]);
+                    }
+                    if (hopfGroup.visible) {
+                        torusKnotMesh.rotation.z = t * 0.45 * pVal;
+                        hopfGroup.children.forEach((child, idx) => {
+                            if (idx > 0) child.rotation.y += 0.008 * pVal * (idx % 2 === 0 ? 1 : -1);
+                        });
+                    }
+                    if (heartRoseGroup.visible) {
+                        heartRoseGroup.scale.setScalar(0.88 + pVal * 0.14 + Math.sin(t * 3) * 0.04);
+                        maurerLine.rotation.z = t * 0.35 * pVal;
+                    }
+
+                    mathSprites.forEach((ms) => {
+                        ms.ang += 0.006 * pVal;
+                        ms.sprite.position.x = Math.cos(ms.ang) * ms.rad;
+                        ms.sprite.position.z = Math.sin(ms.ang) * ms.rad;
+                        ms.sprite.position.y = ms.baseY + Math.sin(t * 1.8 + ms.phase) * 0.28;
+                    });
+                }
+
+                // --- WORLD 3: HEARTS COSMOS ---
+                if (w3Hearts.visible) {
+                    window.UniverseState.heartBeatBoost = Math.max(0, window.UniverseState.heartBeatBoost - 0.03);
+                    const lubDub = Math.pow(Math.sin(t * 3.4), 8) * 0.28 + window.UniverseState.heartBeatBoost * 0.7;
+                    const hs = 2.3 + lubDub;
+                    royalHeartCenter.scale.set(hs, hs, hs);
+                    royalHeartCenter.rotation.y = Math.sin(t * 1.1) * 0.45;
+
+                    const rScale = 1 + lubDub * 1.45;
+                    heartPulseRing.scale.set(rScale, rScale, 1);
+                    heartPulseRing.rotation.z = t * 0.4;
+
+                    orbitingHearts.forEach((h) => {
+                        h.ang += h.spd * 0.012;
+                        h.mesh.position.x = Math.cos(h.ang) * h.rad;
+                        h.mesh.position.z = Math.sin(h.ang) * h.rad;
+                        h.mesh.position.y = h.baseY + Math.sin(t * 1.6 + h.ph) * 0.35;
+                        h.mesh.rotation.y += 0.025;
+                    });
+                }
+
+                // --- WORLD 4: CONSTELLATION & 6 GIFTS ---
+                if (w4Constellation.visible) {
+                    constLineMat.opacity = 0.52 + Math.sin(t * 3) * 0.25;
+                    giftMeshes.forEach((gm) => {
+                        const isOpen = !!window.UniverseState.openedGifts[gm.idx];
+                        gm.group.position.y = gm.baseY + Math.sin(t * 2.2 + gm.idx) * 0.14;
+                        gm.group.rotation.y = Math.sin(t * 1.2 + gm.idx) * 0.35;
+                        gm.lid.position.y += ((isOpen ? 0.98 : 0.38) - gm.lid.position.y) * 0.1;
+                        gm.lid.rotation.x += ((isOpen ? -0.45 : 0) - gm.lid.rotation.x) * 0.1;
+                        gm.glow.material.opacity += ((isOpen ? 0.95 : 0) - gm.glow.material.opacity) * 0.1;
+                    });
+                }
+
+                // --- WORLD 5: ROSE PETALS ---
+                if (w5Letter.visible) {
+                    petals.forEach((rp) => {
+                        rp.mesh.position.y -= rp.fall;
+                        rp.mesh.position.x += Math.sin(t * rp.sway + rp.ph) * 0.012;
+                        rp.mesh.rotation.x += 0.02;
+                        rp.mesh.rotation.y += 0.018;
+                        if (rp.mesh.position.y < -4) rp.mesh.position.y = 6.5;
+                    });
+                }
+
+                // --- WORLD 6: SKY LANTERNS ---
+                if (w6Lanterns.visible) {
+                    while (window.UniverseState.lanternSpawnQueue.length > 0) {
+                        const hex = window.UniverseState.lanternSpawnQueue.shift();
+                        spawnLantern3D(hex, -2.2);
+                    }
+                    lanterns3D.forEach((sl) => {
+                        sl.mesh.position.y += sl.speed;
+                        sl.mesh.position.x += Math.sin(t * 1.3 + sl.ph) * 0.008;
+                        sl.mesh.rotation.y += 0.01;
+                        if (sl.mesh.position.y > 8.5) sl.mesh.position.y = -3.2;
+                    });
+                }
+
+                // --- WORLD 7: ROYAL CROWN ---
+                if (w7Crown.visible) {
+                    ringA.rotation.x = t * 0.45;
+                    ringA.rotation.y = t * 0.3;
+                    ringB.rotation.y = -t * 0.55;
+                    ringB.rotation.z = t * 0.25;
+                    ringC.rotation.x = -t * 0.6;
+                    crownObj.rotation.y = t * 0.85;
+                    crownObj.position.y = 1.65 + Math.sin(t * 2.2) * 0.12;
+                }
+
+                cosmicStars.rotation.y = t * 0.04;
+                const isMobile = window.innerWidth < 768;
+                const targetZ = isMobile ? 11.5 : 9.2;
+                camera.position.z += (targetZ - camera.position.z) * 0.05;
+                camera.position.x += (pointerX * 2.2 - camera.position.x) * 0.05;
+                camera.position.y += ((2.15 - pointerY * 1.4) - camera.position.y) * 0.05;
+                camera.lookAt(0, 1.4, 0);
+
+                if (composer) {
+                    composer.render();
+                } else {
+                    renderer.render(scene, camera);
+                }
+            }
+            animate();
+        }
+
+        // =========================================================================
+        // 4. CONFETTI BURSTS
+        // =========================================================================
+        function fireGoldConfetti() {
+            const cols = ['#ffd700', '#fff3c4', '#f43f5e', '#38bdf8', '#f59e0b'];
+            confetti({ particleCount: 95, spread: 88, origin: { y: 0.6 }, colors: cols });
+            setTimeout(() => {
+                confetti({ particleCount: 65, angle: 60, spread: 70, origin: { x: 0.1, y: 0.65 }, colors: cols });
+                confetti({ particleCount: 65, angle: 120, spread: 70, origin: { x: 0.9, y: 0.65 }, colors: cols });
+            }, 250);
+        }
+
+        function fireRoseConfetti() {
+            const cols = ['#f43f5e', '#e11d48', '#fb7185', '#ffd700', '#ffe4e6'];
+            confetti({ particleCount: 90, spread: 105, scalar: 1.25, origin: { y: 0.55 }, colors: cols });
+        }
+
+        // =========================================================================
+        // 5. CURATED CONTENT DATA FOR ALL 7 WORLDS (FATIMA DERGATE • S5 MATH FSSM)
+        // =========================================================================
+        const WORLDS_CONFIG = [
+            { id: 'palace', label: 'القصر الملكي', icon: 'fa-cake-candles' },
+            { id: 'math', label: 'معبد الرياضيات S5', icon: 'fa-infinity' },
+            { id: 'hearts', label: 'كون القلوب', icon: 'fa-heart' },
+            { id: 'constellation', label: 'كوكبة الهدايا', icon: 'fa-gift' },
+            { id: 'letter', label: 'رسالة من القلب', icon: 'fa-envelope-open-text' },
+            { id: 'lanterns', label: 'قناديل الأمنيات', icon: 'fa-wand-magic-sparkles' },
+            { id: 'crown', label: 'التاج والشهادة', icon: 'fa-crown' }
+        ];
+
+        const MATH_SCULPTURES = [
+            {
+                id: 'riemann',
+                name: 'سطح ريمان المركب',
+                formula: 'w = z^{1/3}  ⇒  u(r,θ) = r^{1/3} cos(θ/3)',
+                branch: 'Analyse Complexe & Surfaces de Riemann',
+                desc: 'سطح تحليلي متعدد الطبقات يمثل امتداد الدالة الجذرية في المستوي المركب ℂ، ملوناً حسب الطور الزاوي arg(z).'
+            },
+            {
+                id: 'lorenz',
+                name: 'جاذب لورينز الفوضوي',
+                formula: 'dx/dt = σ(y−x), dy/dt = x(ρ−z)−y, dz/dt = xy−βz',
+                branch: 'Systèmes Dynamiques & Équations Différentielles',
+                desc: 'مسار الفراشة الشهير في فضاء الطور ℝ³ حيث يولد النظام التفاضلي غير الخطي نظاماً هندسياً ساحراً لا يتكرر أبداً.'
+            },
+            {
+                id: 'hopf',
+                name: 'ليف هوبف وعقدة الطارة',
+                formula: 'π : S³ → S² ,  K(5,8) ⊂ ℝ³',
+                branch: 'Topologie Algébrique & Géométrie Différentielle',
+                desc: 'إسقاط ستيريوغرافي لحلقات هوبف المتشابكة في الفضاء الرباعي الأبعاد حول عقدة الطارة الذهبية (5,8).'
+            },
+            {
+                id: 'heartRose',
+                name: 'معادلة القلب وزهرة ماورر',
+                formula: 'x = 16sin³(t) ,  r = sin(6θ)',
+                branch: 'Géométrie Paramétrique & Harmonie',
+                desc: 'تناغم المعادلة البارامترية للقلب مع زهرة ماورر الذهبية: برهان رياضي على أن الجمال والدقة يلتقيان في اسم فاطمة.'
+            }
+        ];
+
+        const FSSM_MATH_PILLARS = [
+            {
+                code: 'TOPOLOGIE • S5',
+                title: 'فضاءات متصلة لا تنفصل',
+                text: 'في الطوبولوجيا، بعض الفضاءات تظل مترابطة مهما تغيرت التحويلات.. تماماً كمعزتكِ وتقديركِ في القلب يا فاطمة.'
+            },
+            {
+                code: 'ANALYSE COMPLEXE',
+                title: 'أناقة التحليل المركب',
+                text: 'كما تمنح الدوال الهولومورفية انسجاماً مذهلاً للمستوي ℂ، يمنح ذكاؤكِ ورقيّكِ في FSSM نوراً خاصاً لكل من يعرفكِ.'
+            },
+            {
+                code: 'ALGÈBRE & STRUCTURES',
+                title: 'بنية رياضية متكاملة',
+                text: 'طالبة متألقة في S5 رياضيات بكلية العلوم السملالية بمراكش؛ تجمعين بين دقة البرهان وجمال الروح.'
+            },
+            {
+                code: 'CALCUL DIFFÉRENTIEL',
+                title: 'نهاية تؤول نحو القمة',
+                text: 'كل خطوة في مساركِ الجامعي هي متتالية متقاربة نحو الإجازة والنجاح الباهر والتألق الدائم.'
+            }
+        ];
+
+        const HEART_CARDS = [
+            { id: 1, tag: 'معزة استثنائية', title: 'مكانة لا تُضاهى في القلب', text: 'يا فاطمة درغات، وجودكِ في الحياة نعمة حقيقية، وطيبة قلبكِ تجعل كل لحظة بقربكِ مليئة بالدفء والسكينة.' },
+            { id: 2, tag: 'فخر السملالية FSSM', title: 'عقل رياضي وقلب من ذهب', text: 'تجمعين بين نبوغ طالبة الرياضيات في S5 ورقيّ الأخلاق وعذوبة الحضور.. دمتِ متألقة دائماً.' },
+            { id: 3, tag: 'ابتسامة مشرقة', title: 'ضحكتكِ تضيء الكون', text: 'عسى أن تظل ابتسامتكِ الجميلة مرسومة على وجهكِ طوال العمر، فأنتِ تستحقين كل الفرح والجمال.' },
+            { id: 4, tag: 'دعوة صادقة', title: 'حفظكِ الله ووفقكِ في دراستكِ', text: 'في يوم ميلادكِ، أدعو الله أن ييسر لكِ مسار S5 في FSSM ويرزقكِ أعلى المراتب وراحة البال.' },
+            { id: 5, tag: 'نجمة مراكش', title: 'أجمل ما في هذا اليوم', text: 'اليوم يبتسم التاريخ لأنه يوافق ميلاد إنسانة استثنائية اسمها فاطمة درغات.. كل عام وأنتِ بألف خير.' },
+            { id: 6, tag: 'تقدير أبدي', title: 'محبة وتقدير يفوق الوصف', text: 'مهما سطرت من معادلات وكلمات، تبقى معزتكِ في القلب أكبر من أن تُحصى.. عيد ميلاد سعيد يا غالية.' }
+        ];
+
+        const GIFT_BOXES = [
+            { idx: 0, icon: 'fa-crown', name: 'تاج التميز والسمو', desc: 'لأنكِ ملكة بأخلاقكِ ورقيّكِ وحضوركِ الذي يأسر القلوب بكل احترام وتقدير يا فاطمة.' },
+            { idx: 1, icon: 'fa-graduation-cap', name: 'وسام تفوق S5 FSSM', desc: 'هدية رمزية لتألقكِ في شعبة الرياضيات بكلية العلوم السملالية بمراكش، وعقبال التخرج بأعلى ميزة.' },
+            { idx: 2, icon: 'fa-key', name: 'مفتاح السعادة الدائمة', desc: 'مفتاح يفتح أمامكِ أياماً مليئة بالفرح والطمأنينة ويبعد عن قلبكِ أي حزن أو هم.' },
+            { idx: 3, icon: 'fa-spa', name: 'باقة ورد مراكشية', desc: 'باقة من أرقى الورود لا تذبل أبداً، تشبه جمال روحكِ وعطر حضوركِ الجميل.' },
+            { idx: 4, icon: 'fa-star', name: 'نجمة الحظ السعيد', desc: 'نجمة مضيئة ترافقكِ في عامكِ الجديد لتفتح لكِ أبواب التوفيق والنجاح في كل خطوة.' },
+            { idx: 5, icon: 'fa-infinity', name: 'معادلة الفرح اللانهائي', desc: 'دالة رياضية متزايدة باستمرار نحو السعادة والصحة وتحقيق كل أحلامكِ الكبيرة.' }
+        ];
+
+        const LANTERN_PALETTE = [
+            { name: 'ذهبي ملكي', hex: 0xffb733, css: '#ffb733' },
+            { name: 'ياقوتي وردي', hex: 0xf43f5e, css: '#f43f5e' },
+            { name: 'أزرق سماوي', hex: 0x38bdf8, css: '#38bdf8' }
+        ];
+
+        // =========================================================================
+        // 6. MAIN REACT APPLICATION
+        // =========================================================================
+        function App() {
+            const [gateOpen, setGateOpen] = useState(false);
+            const [activeWorld, setActiveWorld] = useState('palace');
+            const [mood, setMood] = useState('royalGold');
+            const [musicOn, setMusicOn] = useState(false);
+
+            // World 1: Palace
+            const [candlesLit, setCandlesLit] = useState(true);
+            const [showWishModal, setShowWishModal] = useState(false);
+
+            // World 2: Advanced Mathematics Sanctuary
+            const [mathSculpture, setMathSculpture] = useState('riemann');
+            const [mathParam, setMathParam] = useState(1.0);
+
+            // World 3: Hearts Cosmos
+            const [selectedHeart, setSelectedHeart] = useState(HEART_CARDS[0]);
+            const [pulseCount, setPulseCount] = useState(1);
+
+            // World 4: Constellation & Gifts
+            const [openedGifts, setOpenedGifts] = useState({});
+            const [activeGift, setActiveGift] = useState(null);
+
+            // World 5: Wax-Sealed Letter
+            const [sealBroken, setSealBroken] = useState(false);
+
+            // World 6: Sky Lanterns
+            const [lanterns, setLanterns] = useState([
+                { id: 1, author: 'أمنية النجاح في FSSM', text: 'أسأل الله لكِ التوفيق والتفوق الباهر في امتحانات S5 رياضيات بكلية العلوم السملالية يا فاطمة.', color: '#38bdf8' },
+                { id: 2, author: 'دعوة من القلب', text: 'عام جديد يزهر بالخير والبركة وراحة البال وتحقيق كل طموحاتكِ الجميلة يا فاطمة درغات.', color: '#ffb733' },
+                { id: 3, author: 'تحية تقدير', text: 'كل عام وأنتِ منبع للطاقة الإيجابية والرقيّ والجمال يا أعز إنسانة.', color: '#f43f5e' }
+            ]);
+            const [wishInput, setWishInput] = useState('');
+            const [lanternColor, setLanternColor] = useState(LANTERN_PALETTE[0]);
+
+            // World 7: Eternal Crown & Certificate
+            const [certStamped, setCertStamped] = useState(false);
+
+            useEffect(() => {
+                initThreeUniverse();
+
+                // jQuery Dynamic Cursor Trail (Stars, Hearts, or Math Symbols depending on World)
+                let lastSpark = 0;
+                const glyphs = ['π', '∫', '∑', 'Φ', '∞', 'ℂ', '∇'];
+                $(document).on('mousemove touchmove', function(e) {
+                    const now = Date.now();
+                    if (now - lastSpark < 44) return;
+                    lastSpark = now;
+
+                    const cx = e.clientX || (e.originalEvent.touches && e.originalEvent.touches[0].clientX);
+                    const cy = e.clientY || (e.originalEvent.touches && e.originalEvent.touches[0].clientY);
+                    if (!cx || !cy) return;
+
+                    const curWorld = window.UniverseState.world;
+                    if (curWorld === 'math') {
+                        const sym = glyphs[Math.floor(Math.random() * glyphs.length)];
+                        const $m = $(`<div class="cursor-math">${sym}</div>`).css({ left: cx + 'px', top: cy + 'px' });
+                        $('body').append($m);
+                        $m.animate({ top: (cy - 32) + 'px', opacity: 0 }, 750, function() { $(this).remove(); });
+                    } else if (curWorld === 'hearts' || curWorld === 'letter') {
+                        const $h = $('<div class="cursor-heart"><i class="fa-solid fa-heart"></i></div>').css({ left: cx + 'px', top: cy + 'px' });
+                        $('body').append($h);
+                        $h.animate({ top: (cy - 34) + 'px', opacity: 0 }, 750, function() { $(this).remove(); });
+                    } else {
+                        const $s = $('<div class="cursor-sparkle"></div>').css({ left: cx + 'px', top: cy + 'px' });
+                        $('body').append($s);
+                        $s.animate({ top: (cy - 24) + 'px', opacity: 0, width: '2px', height: '2px' }, 650, function() { $(this).remove(); });
+                    }
+                });
+
+                // jQuery 3D Tilt Cards
+                $(document).on('mousemove', '.tilt-card', function(e) {
+                    const r = this.getBoundingClientRect();
+                    const x = (e.clientX - r.left) / r.width - 0.5;
+                    const y = (e.clientY - r.top) / r.height - 0.5;
+                    $(this).css('transform', `perspective(900px) rotateY(${x * 11}deg) rotateX(${-y * 11}deg) translateY(-4px)`);
+                }).on('mouseleave', '.tilt-card', function() {
+                    $(this).css('transform', 'perspective(900px) rotateY(0deg) rotateX(0deg) translateY(0px)');
+                });
+
+                return () => audioEngine.stopMusic();
+            }, []);
+
+            const handleEnterUniverse = () => {
+                audioEngine.startMusic();
+                setMusicOn(true);
+                fireGoldConfetti();
+                gsap.to('#entrance-gate', {
+                    opacity: 0,
+                    scale: 1.06,
+                    duration: 0.85,
+                    ease: 'power3.inOut',
+                    onComplete: () => setGateOpen(true)
+                });
+            };
+
+            const switchWorld = (worldId) => {
+                if (worldId === activeWorld) return;
+                setActiveWorld(worldId);
+                window.UniverseState.world = worldId;
+                audioEngine.playArpeggio(worldId === 'math' ? 'math' : (worldId === 'hearts' ? 'heart' : 'gold'));
+                if (worldId === 'hearts') window.UniverseState.heartBeatBoost = 1.1;
+
+                setTimeout(() => {
+                    gsap.fromTo('.world-anim',
+                        { y: 24, opacity: 0 },
+                        { y: 0, opacity: 1, duration: 0.6, stagger: 0.08, ease: 'power3.out' }
+                    );
+                }, 35);
+            };
+
+            const toggleMusic = () => {
+                if (musicOn) {
+                    audioEngine.stopMusic();
+                    setMusicOn(false);
+                } else {
+                    audioEngine.startMusic();
+                    setMusicOn(true);
+                }
+            };
+
+            const changeMood = (key) => {
+                setMood(key);
+                window.UniverseState.mood = key;
+            };
+
+            // World 1 Actions
+            const blowOutCandles = () => {
+                setCandlesLit(false);
+                window.UniverseState.candlesLit = false;
+                if (!musicOn) {
+                    audioEngine.startMusic();
+                    setMusicOn(true);
+                }
+                audioEngine.playArpeggio('gold');
+                fireGoldConfetti();
+                setTimeout(() => setShowWishModal(true), 850);
+            };
+
+            const relightCandles = () => {
+                setCandlesLit(true);
+                window.UniverseState.candlesLit = true;
+                setShowWishModal(false);
+            };
+
+            // World 2 Actions
+            const selectMathSculpture = (scId) => {
+                setMathSculpture(scId);
+                window.UniverseState.mathSculpture = scId;
+                audioEngine.playArpeggio('math');
+            };
+
+            const updateMathParam = (val) => {
+                const num = parseFloat(val);
+                setMathParam(num);
+                window.UniverseState.mathParam = num;
+            };
+
+            // World 3 Actions
+            const sendHeartPulse = () => {
+                setPulseCount((c) => c + 1);
+                window.UniverseState.heartBeatBoost = 1.4;
+                audioEngine.playHeartbeat();
+                fireRoseConfetti();
+            };
+
+            // World 4 Actions
+            const openGiftBox = (gift) => {
+                const next = { ...openedGifts, [gift.idx]: true };
+                setOpenedGifts(next);
+                window.UniverseState.openedGifts = next;
+                setActiveGift(gift);
+                audioEngine.playArpeggio('gold');
+                fireGoldConfetti();
+            };
+
+            // World 6 Actions
+            const launchSkyLantern = (e) => {
+                e.preventDefault();
+                if (!wishInput.trim()) return;
+                const item = {
+                    id: Date.now(),
+                    author: 'أمنية مُطلقة في السماء ✨',
+                    text: wishInput.trim(),
+                    color: lanternColor.css
+                };
+                setLanterns([item, ...lanterns]);
+                window.UniverseState.lanternSpawnQueue.push(lanternColor.hex);
+                setWishInput('');
+                audioEngine.playArpeggio('gold');
+                fireGoldConfetti();
+            };
+
+            const currentSculptureObj = MATH_SCULPTURES.find((s) => s.id === mathSculpture) || MATH_SCULPTURES[0];
+            const currentWorldIdx = WORLDS_CONFIG.findIndex((w) => w.id === activeWorld);
+
+            return (
+                <div className="min-h-screen flex flex-col justify-between relative selection:bg-amber-400 selection:text-black">
+
+                    {/* =========================================================
+                        ROYAL ENTRANCE GATE (WITH MATH & FSSM FORMULAS)
+                       ========================================================= */}
+                    {!gateOpen && (
+                        <div
+                            id="entrance-gate"
+                            className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#03020a]/92 backdrop-blur-2xl"
+                        >
+                            {/* Floating Decorative Equations */}
+                            <div className="absolute inset-0 overflow-hidden pointer-events-none opacity-25 font-mono text-xs sm:text-sm text-sky-300">
+                                <span className="absolute top-[12%] left-[10%] animate-pulse">∮_∂Ω ω = ∫_Ω dω</span>
+                                <span className="absolute top-[18%] right-[12%] text-amber-300">e^(iπ) + 1 = 0</span>
+                                <span className="absolute bottom-[20%] left-[14%] text-rose-300">x(t) = 16 sin³(t)</span>
+                                <span className="absolute bottom-[16%] right-[10%]">ζ(s) = ∑ n⁻ˢ • FSSM S5</span>
+                            </div>
+
+                            <div className="couture-glass max-w-2xl w-full rounded-3xl p-7 sm:p-12 text-center relative overflow-hidden">
+                                <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-sky-500/15 border border-sky-400/35 text-sky-200 text-xs font-bold mb-5">
+                                    <i className="fa-solid fa-graduation-cap text-amber-300"></i>
+                                    <span>S5 Mathématiques • FSSM Marrakech</span>
+                                </div>
+
+                                <p className="font-royal text-[11px] sm:text-xs tracking-[0.28em] text-amber-300/90 uppercase mb-2">
+                                    Royal Birthday & Mathematical Universe
+                                </p>
+
+                                <h1 className="font-amiri text-5xl sm:text-7xl font-bold gold-shimmer mb-2 leading-tight">
+                                    فاطمة درغات
+                                </h1>
+                                <p className="font-playfair italic text-2xl sm:text-3xl rose-shimmer mb-6">
+                                    Fatima Dergate
+                                </p>
+
+                                <p className="text-sm sm:text-base text-gray-200 max-w-lg mx-auto leading-relaxed mb-8">
+                                    بمناسبة عيد ميلادكِ اليوم، صُمم هذا الكون التفاعلي ثلاثي الأبعاد خصيصاً لكِ؛ يجمع بين سحر الاحتفال الملكي وأناقة الرياضيات المتقدمة التي تتألقين فيها.
+                                </p>
+
+                                <button
+                                    onClick={handleEnterUniverse}
+                                    className="btn-gold-royal px-9 py-4 rounded-2xl font-bold text-base sm:text-lg inline-flex items-center gap-3 cursor-pointer"
+                                >
+                                    <span>افتحي عالمكِ الأسطوري</span>
+                                    <i className="fa-solid fa-sparkles"></i>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* =========================================================
+                        TOP ROYAL HEADER & 7-WORLD NAVIGATION BAR
+                       ========================================================= */}
+                    <header className="w-full px-3 sm:px-8 pt-3 sm:pt-4 pb-2 flex flex-col gap-2.5 pointer-events-none z-20">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                            {/* Monogram & Academic Identity */}
+                            <div className="couture-glass px-3.5 py-2 rounded-2xl flex items-center gap-3 pointer-events-auto">
+                                <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-amber-300 via-amber-500 to-sky-500 flex items-center justify-center text-black font-royal font-black text-sm shadow-lg">
+                                    FD
+                                </div>
+                                <div className="text-right">
+                                    <div className="text-xs sm:text-sm font-bold text-amber-200 leading-none flex items-center gap-2">
+                                        <span>فاطمة درغات</span>
+                                        <span className="text-[10px] px-2 py-0.5 rounded-full bg-sky-500/20 text-sky-300 border border-sky-400/30 font-mono">
+                                            S5 Math • FSSM
+                                        </span>
+                                    </div>
+                                    <div className="text-[9px] font-royal tracking-[0.2em] text-amber-400/80 mt-1">
+                                        FATIMA DERGATE • ROYAL EDITION
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Lighting Mood, Music & Celebration Controls */}
+                            <div className="flex items-center gap-2 pointer-events-auto">
+                                <div className="couture-glass px-2.5 py-2 rounded-2xl flex items-center gap-2">
+                                    {Object.keys(MOOD_THEMES).map((k) => (
+                                        <button
+                                            key={k}
+                                            onClick={() => changeMood(k)}
+                                            title={MOOD_THEMES[k].label}
+                                            className={`w-4 h-4 sm:w-5 sm:h-5 rounded-full transition-transform cursor-pointer ${
+                                                mood === k ? 'scale-125 ring-2 ring-white' : 'opacity-65 hover:opacity-100'
+                                            }`}
+                                            style={{ backgroundColor: MOOD_THEMES[k].dot }}
+                                        />
+                                    ))}
+                                </div>
+
+                                <button
+                                    onClick={toggleMusic}
+                                    className="couture-glass px-3 py-2 rounded-2xl text-xs font-bold text-amber-200 hover:border-amber-400/60 transition flex items-center gap-1.5 cursor-pointer"
+                                >
+                                    <i className={`fa-solid ${musicOn ? 'fa-music animate-bounce text-amber-400' : 'fa-volume-xmark text-gray-400'}`}></i>
+                                    <span className="hidden md:inline">{musicOn ? 'إيقاف الموسيقى' : 'موسيقى عيد الميلاد'}</span>
+                                </button>
+
+                                <button
+                                    onClick={() => {
+                                        audioEngine.playArpeggio('gold');
+                                        fireGoldConfetti();
+                                    }}
+                                    className="couture-glass px-3 py-2 rounded-2xl text-xs font-bold text-rose-300 hover:border-rose-400/60 transition flex items-center gap-1.5 cursor-pointer"
+                                >
+                                    <i className="fa-solid fa-sparkles text-rose-400"></i>
+                                    <span className="hidden sm:inline">احتفال</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        {/* 7-World Quick-Jump Dock */}
+                        <nav className="mx-auto max-w-full overflow-x-auto couture-glass p-1.5 rounded-2xl flex items-center gap-1 pointer-events-auto shadow-2xl">
+                            {WORLDS_CONFIG.map((item, idx) => {
+                                const active = activeWorld === item.id;
+                                let activeStyle = 'btn-gold-royal shadow-md';
+                                if (item.id === 'math') activeStyle = 'btn-sapphire-royal shadow-md';
+                                if (item.id === 'hearts') activeStyle = 'bg-gradient-to-r from-rose-500 to-pink-600 text-white shadow-[0_0_20px_rgba(244,63,94,0.6)]';
+
+                                return (
+                                    <button
+                                        key={item.id}
+                                        onClick={() => switchWorld(item.id)}
+                                        className={`px-3 sm:px-3.5 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all flex items-center gap-1.5 cursor-pointer ${
+                                            active ? activeStyle : 'text-gray-300 hover:text-amber-200 hover:bg-white/5'
+                                        }`}
+                                    >
+                                        <span className="opacity-65 text-[10px] font-mono">{idx + 1}.</span>
+                                        <i className={`fa-solid ${item.icon}`}></i>
+                                        <span>{item.label}</span>
+                                    </button>
+                                );
+                            })}
+                        </nav>
+                    </header>
+
+                    {/* =========================================================
+                        MAIN INTERACTIVE STAGE: 7 DISTINCT 3D WORLDS
+                       ========================================================= */}
+                    <main className="flex-1 flex flex-col justify-between px-4 sm:px-8 py-2 max-w-6xl mx-auto w-full pointer-events-none">
+
+                        {/* -----------------------------------------------------
+                            WORLD 1: ROYAL 3D BIRTHDAY PALACE (القصر الملكي)
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'palace' && (
+                            <div className="flex-1 flex flex-col justify-between">
+                                <section className="text-center mt-1 world-anim">
+                                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full couture-glass text-xs text-amber-300 mb-2">
+                                        <i className="fa-solid fa-crown text-amber-400"></i>
+                                        <span>العالم الأول • القصر الملكي للاحتفال</span>
+                                    </div>
+                                    <h1 className="font-amiri text-4xl sm:text-6xl md:text-7xl font-bold gold-shimmer drop-shadow-[0_6px_26px_rgba(0,0,0,0.95)] leading-tight">
+                                        عيد ميلاد سعيد يا فاطمة درغات
+                                    </h1>
+                                    <p className="font-playfair italic text-xl sm:text-3xl rose-shimmer mt-1">
+                                        Happy Birthday, Fatima Dergate
+                                    </p>
+                                </section>
+
+                                <div className="h-[31vh] sm:h-[35vh] w-full"></div>
+
+                                <section className="world-anim flex flex-col items-center gap-3 mb-3 pointer-events-auto">
+                                    <div className="flex flex-wrap items-center justify-center gap-3">
+                                        {candlesLit ? (
+                                            <button
+                                                onClick={blowOutCandles}
+                                                className="btn-gold-royal px-7 py-3.5 rounded-2xl font-bold text-sm sm:text-base flex items-center gap-2.5 cursor-pointer"
+                                            >
+                                                <i className="fa-solid fa-wind text-lg"></i>
+                                                <span>تمنّي أمنية وأطفئي الشموع 🕯️</span>
+                                            </button>
+                                        ) : (
+                                            <>
+                                                <button
+                                                    onClick={() => setShowWishModal(true)}
+                                                    className="btn-gold-royal px-6 py-3 rounded-2xl font-bold text-sm flex items-center gap-2 cursor-pointer"
+                                                >
+                                                    <i className="fa-solid fa-scroll"></i>
+                                                    <span>بطاقة التهنئة الملكية</span>
+                                                </button>
+                                                <button
+                                                    onClick={relightCandles}
+                                                    className="couture-glass px-5 py-3 rounded-2xl text-sm font-bold text-amber-200 hover:border-amber-400/50 transition flex items-center gap-2 cursor-pointer"
+                                                >
+                                                    <i className="fa-solid fa-fire text-amber-400"></i>
+                                                    <span>إعادة إشعال الشموع</span>
+                                                </button>
+                                            </>
+                                        )}
+
+                                        <button
+                                            onClick={() => switchWorld('math')}
+                                            className="couture-glass-sapphire px-6 py-3.5 rounded-2xl text-sm font-bold text-sky-200 hover:bg-sky-500/20 transition flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <i className="fa-solid fa-infinity text-sky-400"></i>
+                                            <span>ادخلي معبد الرياضيات S5</span>
+                                        </button>
+                                    </div>
+                                </section>
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            WORLD 2: ADVANCED MATHEMATICS SANCTUARY (S5 FSSM)
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'math' && (
+                            <div className="flex-1 flex flex-col justify-between">
+                                <section className="text-center mt-1 world-anim">
+                                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full couture-glass-sapphire text-xs text-sky-300 mb-1.5">
+                                        <i className="fa-solid fa-atom text-sky-400 animate-spin" style={{ animationDuration: '9s' }}></i>
+                                        <span>العالم الثاني • معبد الرياضيات المتقدمة (S5 Math • FSSM)</span>
+                                    </div>
+                                    <h2 className="font-amiri text-3xl sm:text-5xl font-bold sapphire-shimmer">
+                                        سيمفونية الهندسة التفاضلية والتحليل المركب
+                                    </h2>
+                                </section>
+
+                                {/* 3D Mathematical Manifold Stage Window */}
+                                <div className="h-[24vh] sm:h-[28vh] w-full"></div>
+
+                                {/* Interactive Sculpture Switcher + Live Differential Equation Card + Parameter Slider */}
+                                <section className="world-anim max-w-4xl mx-auto w-full mb-3 pointer-events-auto flex flex-col gap-3">
+                                    {/* 4 Live 3D Sculpture Buttons */}
+                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
+                                        {MATH_SCULPTURES.map((sc) => {
+                                            const active = mathSculpture === sc.id;
+                                            return (
+                                                <button
+                                                    key={sc.id}
+                                                    onClick={() => selectMathSculpture(sc.id)}
+                                                    className={`px-3 py-2.5 rounded-2xl text-xs font-bold transition cursor-pointer text-center ${
+                                                        active
+                                                            ? 'btn-sapphire-royal ring-2 ring-sky-300'
+                                                            : 'couture-glass-sapphire text-sky-100 hover:bg-sky-500/15'
+                                                    }`}
+                                                >
+                                                    {sc.name}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+
+                                    {/* Live Equation Readout & Parameter Slider */}
+                                    <div className="couture-glass-sapphire rounded-3xl p-4 sm:p-5 flex flex-col md:flex-row items-center justify-between gap-4">
+                                        <div className="text-right flex-1">
+                                            <div className="flex flex-wrap items-center gap-2 mb-1">
+                                                <span className="text-[11px] px-2.5 py-0.5 rounded-full bg-sky-500/20 text-sky-300 font-mono">
+                                                    {currentSculptureObj.branch}
+                                                </span>
+                                            </div>
+                                            <div dir="ltr" className="font-mono text-xs sm:text-sm text-amber-300 bg-black/45 px-3 py-1.5 rounded-xl inline-block my-1 border border-amber-400/25">
+                                                {currentSculptureObj.formula}
+                                            </div>
+                                            <p className="text-xs text-gray-200 leading-relaxed mt-1">
+                                                {currentSculptureObj.desc}
+                                            </p>
+                                        </div>
+
+                                        {/* Interactive Parameter Control */}
+                                        <div className="w-full md:w-52 bg-black/35 p-3.5 rounded-2xl border border-sky-400/25 flex flex-col gap-2">
+                                            <div className="flex justify-between text-[11px] font-mono text-sky-200">
+                                                <span>المعامل λ (التحويل):</span>
+                                                <span className="text-amber-300 font-bold">{mathParam.toFixed(2)}</span>
+                                            </div>
+                                            <input
+                                                type="range"
+                                                min="0.5"
+                                                max="2.0"
+                                                step="0.05"
+                                                value={mathParam}
+                                                onChange={(e) => updateMathParam(e.target.value)}
+                                                className="royal-slider w-full"
+                                            />
+                                            <span className="text-[10px] text-gray-400 text-center">
+                                                حرّكي المؤشر لتغيير ديناميكية المجسم 3D
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* 4 Poetic S5 FSSM Tributes */}
+                                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-2.5">
+                                        {FSSM_MATH_PILLARS.map((p, idx) => (
+                                            <div key={idx} className="tilt-card couture-glass-sapphire rounded-2xl p-3.5 text-right">
+                                                <div className="font-mono text-[10px] text-amber-300 mb-1">{p.code}</div>
+                                                <h4 className="font-amiri text-lg font-bold text-sky-100 mb-1">{p.title}</h4>
+                                                <p className="text-[11px] text-gray-300 leading-relaxed">{p.text}</p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </section>
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            WORLD 3: INFINITE HEARTS COSMOS (كون القلوب)
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'hearts' && (
+                            <div className="flex-1 flex flex-col justify-between">
+                                <section className="text-center mt-1 world-anim">
+                                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full couture-glass-rose text-xs text-rose-300 mb-2">
+                                        <i className="fa-solid fa-heart text-rose-400 animate-ping"></i>
+                                        <span>العالم الثالث • كون القلوب والمعزة الصادقة</span>
+                                    </div>
+                                    <h2 className="font-amiri text-3xl sm:text-5xl font-bold rose-shimmer">
+                                        65 قلباً يدورون في فلك معزتكِ يا فاطمة
+                                    </h2>
+                                </section>
+
+                                <div className="h-[24vh] sm:h-[28vh] w-full flex items-end justify-center pb-2">
+                                    <button
+                                        onClick={sendHeartPulse}
+                                        className="pointer-events-auto bg-gradient-to-r from-rose-600 via-pink-500 to-rose-600 text-white px-7 py-3.5 rounded-2xl font-bold text-sm sm:text-base shadow-[0_0_32px_rgba(244,63,94,0.75)] hover:scale-105 active:scale-95 transition flex items-center gap-3 cursor-pointer"
+                                    >
+                                        <i className="fa-solid fa-heart-pulse text-lg animate-bounce"></i>
+                                        <span>أرسلي نبضة حب لفاطمة 💖 ({pulseCount})</span>
+                                    </button>
+                                </div>
+
+                                <section className="world-anim max-w-2xl mx-auto w-full mb-3 pointer-events-auto">
+                                    <div className="couture-glass-rose rounded-3xl p-5 text-center">
+                                        <span className="inline-block px-3 py-0.5 rounded-full bg-rose-500/25 text-rose-200 text-xs font-bold mb-1.5">
+                                            {selectedHeart.tag}
+                                        </span>
+                                        <h3 className="font-amiri text-2xl sm:text-3xl font-bold text-amber-100 mb-1">
+                                            {selectedHeart.title}
+                                        </h3>
+                                        <p className="text-xs sm:text-sm text-gray-200 leading-relaxed">
+                                            "{selectedHeart.text}"
+                                        </p>
+                                    </div>
+                                </section>
+
+                                <section className="world-anim grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-3 pointer-events-auto">
+                                    {HEART_CARDS.map((h) => {
+                                        const active = selectedHeart.id === h.id;
+                                        return (
+                                            <button
+                                                key={h.id}
+                                                onClick={() => {
+                                                    setSelectedHeart(h);
+                                                    window.UniverseState.heartBeatBoost = 0.9;
+                                                    audioEngine.playHeartbeat();
+                                                }}
+                                                className={`tilt-card couture-glass-rose rounded-2xl p-3 text-center cursor-pointer flex flex-col items-center gap-1.5 ${
+                                                    active ? 'ring-2 ring-rose-400 bg-rose-500/25' : 'opacity-85 hover:opacity-100'
+                                                }`}
+                                            >
+                                                <i className={`fa-solid fa-heart text-xl ${active ? 'text-rose-400 scale-110' : 'text-rose-300/70'} transition-transform`}></i>
+                                                <span className="text-[11px] font-bold text-amber-100 line-clamp-1">{h.tag}</span>
+                                            </button>
+                                        );
+                                    })}
+                                </section>
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            WORLD 4: F ♥ D CONSTELLATION & 6 MYSTERY GIFT BOXES
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'constellation' && (
+                            <div className="flex-1 flex flex-col justify-between">
+                                <section className="text-center mt-1 world-anim">
+                                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full couture-glass text-xs text-amber-300 mb-1.5">
+                                        <i className="fa-solid fa-star text-amber-400"></i>
+                                        <span>العالم الرابع • كوكبة F ♥ D وصناديق الهدايا الستة</span>
+                                    </div>
+                                    <h2 className="font-amiri text-3xl sm:text-5xl font-bold gold-shimmer">
+                                        نجوم السماء ترسم اسمكِ • افتحي هداياكِ
+                                    </h2>
+                                </section>
+
+                                <div className="h-[26vh] sm:h-[30vh] w-full"></div>
+
+                                {activeGift && (
+                                    <section className="world-anim max-w-xl mx-auto w-full mb-3 pointer-events-auto">
+                                        <div className="couture-glass rounded-3xl p-4 sm:p-5 text-center border border-amber-400/50">
+                                            <div className="flex items-center justify-center gap-2 text-amber-300 font-amiri text-2xl font-bold mb-1">
+                                                <i className={`fa-solid ${activeGift.icon}`}></i>
+                                                <span>{activeGift.name}</span>
+                                            </div>
+                                            <p className="text-xs sm:text-sm text-gray-200">{activeGift.desc}</p>
+                                        </div>
+                                    </section>
+                                )}
+
+                                <section className="world-anim grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2.5 mb-3 pointer-events-auto">
+                                    {GIFT_BOXES.map((g) => {
+                                        const isOpened = !!openedGifts[g.idx];
+                                        return (
+                                            <button
+                                                key={g.idx}
+                                                onClick={() => openGiftBox(g)}
+                                                className={`tilt-card couture-glass rounded-2xl p-3 text-center cursor-pointer flex flex-col items-center gap-1.5 transition ${
+                                                    isOpened ? 'border-amber-400 bg-amber-500/15' : 'hover:border-amber-400/60'
+                                                }`}
+                                            >
+                                                <div className={`w-9 h-9 rounded-xl flex items-center justify-center text-base ${
+                                                    isOpened ? 'bg-amber-400 text-black' : 'bg-white/10 text-amber-300'
+                                                }`}>
+                                                    <i className={`fa-solid ${isOpened ? g.icon : 'fa-gift'}`}></i>
+                                                </div>
+                                                <span className="text-[11px] font-bold text-amber-100 line-clamp-1">
+                                                    {isOpened ? g.name : `هدية #${g.idx + 1}`}
+                                                </span>
+                                                <span className="text-[10px] text-amber-300/80">
+                                                    {isOpened ? 'مفتوحة ✨' : 'اضغطي للفتح'}
+                                                </span>
+                                            </button>
+                                        );
+                                    })}
+                                </section>
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            WORLD 5: WAX-SEALED ROYAL LETTER (رسالة من القلب)
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'letter' && (
+                            <div className="flex-1 flex flex-col items-center justify-center my-3 pointer-events-auto world-anim">
+                                {!sealBroken ? (
+                                    <div
+                                        onClick={() => {
+                                            setSealBroken(true);
+                                            audioEngine.playArpeggio('heart');
+                                            fireRoseConfetti();
+                                        }}
+                                        className="tilt-card couture-glass max-w-xl w-full rounded-3xl p-8 sm:p-12 text-center cursor-pointer group border border-amber-400/40"
+                                    >
+                                        <div className="w-24 h-24 mx-auto mb-5 rounded-full wax-seal-crest flex flex-col items-center justify-center text-amber-100 group-hover:scale-110 transition-transform">
+                                            <span className="font-royal font-black text-xl leading-none">FD</span>
+                                            <span className="font-mono text-[9px] tracking-widest mt-1 text-amber-200">FSSM</span>
+                                        </div>
+                                        <p className="font-royal text-[11px] tracking-[0.25em] text-rose-300 uppercase mb-2">
+                                            Sealed Royal & Mathematical Epistle
+                                        </p>
+                                        <h2 className="font-amiri text-3xl sm:text-4xl font-bold gold-shimmer mb-3">
+                                            رسالة مختومة بالشمع الأحمر إلى فاطمة درغات
+                                        </h2>
+                                        <p className="text-xs sm:text-sm text-gray-300 mb-6">
+                                            اضغطي على الختم الملكي لكسره وقراءة الكلمات المكتوبة خصيصاً لكِ في يوم ميلادكِ
+                                        </p>
+                                        <span className="btn-gold-royal inline-flex items-center gap-2 px-7 py-3 rounded-2xl font-bold text-sm">
+                                            <i className="fa-solid fa-envelope-open-text"></i>
+                                            <span>كسر الختم وقراءة الرسالة</span>
+                                        </span>
+                                    </div>
+                                ) : (
+                                    <div className="couture-glass max-w-3xl w-full rounded-3xl p-6 sm:p-10 text-right border border-amber-400/45 shadow-2xl">
+                                        <div className="flex items-center justify-between border-b border-amber-400/20 pb-4 mb-5">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-12 h-12 rounded-full wax-seal-crest flex flex-col items-center justify-center text-white font-royal font-bold text-xs">
+                                                    <span>FD</span>
+                                                    <span className="text-[8px] font-mono">FSSM</span>
+                                                </div>
+                                                <div>
+                                                    <h3 className="font-amiri text-2xl font-bold text-amber-200">
+                                                        إلى المتألقة.. فاطمة درغات (S5 Math • FSSM)
+                                                    </h3>
+                                                    <p className="font-playfair italic text-sm text-rose-300">
+                                                        For Fatima Dergate, with infinite admiration
+                                                    </p>
+                                                </div>
+                                            </div>
+                                            <button
+                                                onClick={() => setSealBroken(false)}
+                                                className="px-3.5 py-2 rounded-xl bg-white/5 hover:bg-white/10 text-xs text-gray-300 cursor-pointer"
+                                            >
+                                                إغلاق الظرف
+                                            </button>
+                                        </div>
+
+                                        <div className="space-y-4 font-amiri text-xl sm:text-2xl text-amber-50/95 leading-loose">
+                                            <p>
+                                                في يوم ميلادكِ، لا تكفي الكلمات العادية لتعبّر عن مدى قيمتكِ ومكانتكِ الكبيرة في القلب يا <span className="text-amber-300 font-bold">فاطمة</span>.
+                                            </p>
+                                            <p>
+                                                أنتِ برهان حيّ على أن العقل الرياضي اللامع في <span className="text-sky-300 font-bold">كلية العلوم السملالية (FSSM)</span> يمكن أن يجتمع مع أرقّ وأطيب قلب في هذا الكون.
+                                            </p>
+                                            <p className="text-rose-200">
+                                                كل عام وأنتِ بألف خير وصحة وسعادة، وعسى أن يكتب الله لكِ النجاح الباهر في S5 وما بعدها، وأن يحقق لكِ أجمل الأقدار التي تليق بروحكِ النقية. ✨🎂❤️
+                                            </p>
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            WORLD 6: MAGICAL SKY LANTERN FESTIVAL (قناديل الأمنيات)
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'lanterns' && (
+                            <div className="flex-1 flex flex-col justify-between my-2 pointer-events-auto world-anim">
+                                <section className="text-center mb-3">
+                                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full couture-glass text-xs text-amber-300 mb-1.5">
+                                        <i className="fa-solid fa-wand-magic-sparkles text-amber-400"></i>
+                                        <span>العالم السادس • مهرجان القناديل المضيئة في سماء مراكش</span>
+                                    </div>
+                                    <h2 className="font-amiri text-3xl sm:text-5xl font-bold gold-shimmer">
+                                        أطلقي قنديلاً مضيئاً بأمنية جميلة
+                                    </h2>
+                                </section>
+
+                                <form
+                                    onSubmit={launchSkyLantern}
+                                    className="max-w-2xl mx-auto w-full couture-glass p-3.5 rounded-2xl flex flex-col gap-2.5 mb-4 border border-amber-400/35"
+                                >
+                                    <div className="flex flex-col sm:flex-row gap-2">
+                                        <input
+                                            type="text"
+                                            value={wishInput}
+                                            onChange={(e) => setWishInput(e.target.value)}
+                                            placeholder="اكتبي دعوة أو أمنية لـ فاطمة درغات وأطلقيها في السماء..."
+                                            className="flex-1 bg-black/45 text-white placeholder-gray-400 text-xs sm:text-sm px-4 py-3 rounded-xl border border-white/10 focus:outline-none focus:border-amber-400"
+                                        />
+                                        <button
+                                            type="submit"
+                                            className="btn-gold-royal px-6 py-3 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 cursor-pointer whitespace-nowrap"
+                                        >
+                                            <i className="fa-solid fa-paper-plane"></i>
+                                            <span>إطلاق القنديل 3D</span>
+                                        </button>
+                                    </div>
+
+                                    <div className="flex items-center justify-between text-[11px] px-1">
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-gray-400">لون القنديل:</span>
+                                            {LANTERN_PALETTE.map((c) => (
+                                                <button
+                                                    key={c.name}
+                                                    type="button"
+                                                    onClick={() => setLanternColor(c)}
+                                                    className={`w-4 h-4 rounded-full cursor-pointer transition-transform ${
+                                                        lanternColor.name === c.name ? 'scale-125 ring-2 ring-white' : 'opacity-65'
+                                                    }`}
+                                                    style={{ backgroundColor: c.css }}
+                                                    title={c.name}
+                                                />
+                                            ))}
+                                        </div>
+                                        <span className="text-amber-300/80">40 قنديلاً يحلّق في المشهد 3D</span>
+                                    </div>
+                                </form>
+
+                                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-3">
+                                    {lanterns.slice(0, 3).map((item, idx) => (
+                                        <div
+                                            key={item.id}
+                                            style={{ animationDelay: `${idx * 0.45}s` }}
+                                            className="animate-float-gentle couture-glass rounded-2xl p-4 text-center border border-amber-400/30"
+                                        >
+                                            <div
+                                                className="w-9 h-9 mx-auto mb-2 rounded-full flex items-center justify-center shadow-lg"
+                                                style={{ backgroundColor: `${item.color}33`, color: item.color }}
+                                            >
+                                                <i className="fa-solid fa-fire-flame-curved"></i>
+                                            </div>
+                                            <div className="text-xs font-bold text-amber-200 mb-1">{item.author}</div>
+                                            <p className="text-xs text-gray-200 leading-relaxed">{item.text}</p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            WORLD 7: ETERNAL CROWN & ROYAL CERTIFICATE
+                           ----------------------------------------------------- */}
+                        {activeWorld === 'crown' && (
+                            <div className="flex-1 flex flex-col justify-between my-2 world-anim">
+                                <section className="text-center">
+                                    <div className="inline-flex items-center gap-2 px-4 py-1 rounded-full couture-glass text-xs text-amber-300 mb-1.5">
+                                        <i className="fa-solid fa-crown text-amber-400"></i>
+                                        <span>العالم السابع • التاج الملكي ووثيقة التميز الأسطورية</span>
+                                    </div>
+                                    <h2 className="font-amiri text-3xl sm:text-5xl font-bold gold-shimmer">
+                                        شهادة التميز والتقدير الأسطورية
+                                    </h2>
+                                </section>
+
+                                <div className="h-[22vh] sm:h-[26vh] w-full"></div>
+
+                                <section className="max-w-3xl mx-auto w-full couture-glass rounded-3xl p-5 sm:p-7 text-center border-2 border-amber-400/45 pointer-events-auto mb-3 relative">
+                                    <p className="font-royal text-[10px] tracking-[0.28em] text-amber-300 uppercase mb-1">
+                                        Official Royal & Academic Honor • FSSM Marrakech
+                                    </p>
+                                    <h3 className="font-amiri text-2xl sm:text-3xl font-bold text-amber-100 mb-2">
+                                        فاطمة درغات — طالبة الرياضيات S5 بكلية العلوم السملالية (FSSM)
+                                    </h3>
+                                    <p className="text-xs sm:text-sm text-gray-200 leading-relaxed max-w-xl mx-auto mb-5">
+                                        تُمنح هذه الشهادة الملكية الفخرية تقديراً لذكائها الرياضي الاستثنائي، رقيّ أخلاقها، وحضورها الذي يملأ الحياة بهجة ونوراً.. مع أصدق الأمنيات بعام مليء بالتفوق والسعادة الدائمة.
+                                    </p>
+
+                                    <div className="flex flex-wrap items-center justify-center gap-3">
+                                        <button
+                                            onClick={() => {
+                                                setCertStamped(true);
+                                                audioEngine.playArpeggio('gold');
+                                                fireGoldConfetti();
+                                            }}
+                                            className="btn-gold-royal px-7 py-3.5 rounded-2xl font-bold text-xs sm:text-sm flex items-center gap-2 cursor-pointer"
+                                        >
+                                            <i className="fa-solid fa-stamp"></i>
+                                            <span>{certStamped ? 'تم اعتماد وختم الشهادة بالذهب الملكي 👑 ✓' : 'اعتماد وختم الشهادة بالذهب الملكي 👑'}</span>
+                                        </button>
+                                    </div>
+                                </section>
+                            </div>
+                        )}
+
+                        {/* -----------------------------------------------------
+                            NEXT / PREVIOUS WORLD TOUR FOOTER BAR
+                           ----------------------------------------------------- */}
+                        <div className="flex items-center justify-between gap-3 py-2 pointer-events-auto">
+                            <button
+                                onClick={() => {
+                                    const prev = (currentWorldIdx - 1 + WORLDS_CONFIG.length) % WORLDS_CONFIG.length;
+                                    switchWorld(WORLDS_CONFIG[prev].id);
+                                }}
+                                className="couture-glass px-4 py-2 rounded-xl text-xs font-bold text-amber-200 hover:border-amber-400/50 transition flex items-center gap-2 cursor-pointer"
+                            >
+                                <i className="fa-solid fa-arrow-right"></i>
+                                <span>العالم السابق</span>
+                            </button>
+
+                            <div className="text-[11px] text-gray-400 hidden sm:block">
+                                عالم <span className="text-amber-300 font-bold">{currentWorldIdx + 1}</span> من <span className="text-amber-300 font-bold">{WORLDS_CONFIG.length}</span> • <span className="text-amber-200 font-semibold">فاطمة درغات (S5 Math FSSM)</span>
+                            </div>
+
+                            <button
+                                onClick={() => {
+                                    const next = (currentWorldIdx + 1) % WORLDS_CONFIG.length;
+                                    switchWorld(WORLDS_CONFIG[next].id);
+                                }}
+                                className="couture-glass px-4 py-2 rounded-xl text-xs font-bold text-amber-200 hover:border-amber-400/50 transition flex items-center gap-2 cursor-pointer"
+                            >
+                                <span>العالم التالي</span>
+                                <i className="fa-solid fa-arrow-left"></i>
+                            </button>
+                        </div>
+                    </main>
+
+                    {/* =========================================================
+                        PALACE WISH MODAL (WHEN BLOWING CANDLES)
+                       ========================================================= */}
+                    {showWishModal && (
+                        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+                            <div className="couture-glass max-w-lg w-full rounded-3xl p-6 sm:p-10 text-center relative border border-amber-400/50 shadow-[0_0_70px_rgba(255,215,0,0.3)]">
+                                <button
+                                    onClick={() => setShowWishModal(false)}
+                                    className="absolute top-4 left-4 w-9 h-9 rounded-full bg-white/10 hover:bg-white/20 text-gray-300 flex items-center justify-center cursor-pointer"
+                                >
+                                    <i className="fa-solid fa-xmark"></i>
+                                </button>
+                                <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-amber-400/20 border border-amber-300/50 flex items-center justify-center">
+                                    <i className="fa-solid fa-sparkles text-2xl text-amber-300"></i>
+                                </div>
+                                <h2 className="font-amiri text-3xl sm:text-4xl font-bold gold-shimmer mb-3">
+                                    تحققت أمنيتكِ يا فاطمة درغات!
+                                </h2>
+                                <p className="text-sm sm:text-base text-gray-200 leading-relaxed mb-6">
+                                    كل عام وأنتِ بألف خير وصحة وسعادة، وعسى أن يكون هذا العام عام التفوق في S5 رياضيات بكلية العلوم السملالية وتحقيق كل أحلامكِ الكبيرة. ✨🎂❤️
+                                </p>
+                                <button
+                                    onClick={() => {
+                                        setShowWishModal(false);
+                                        switchWorld('math');
+                                    }}
+                                    className="btn-gold-royal px-7 py-3 rounded-xl font-bold text-sm inline-flex items-center gap-2 cursor-pointer"
+                                >
+                                    <span>ادخلي معبد الرياضيات المتقدمة</span>
+                                    <i className="fa-solid fa-arrow-left"></i>
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
+            );
+        }
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
+    </script>
+</body>
+</html>
